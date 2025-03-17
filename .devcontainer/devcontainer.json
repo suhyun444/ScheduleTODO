@@ -1,0 +1,9 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "extensions": [
+    "vmware.vscode-boot-dev-pack",
+    "vscjava.vscode-java-pack",
+    "cweijan.vscode-mysql-client2"
+  ],
+  "features": {}
+}
