@@ -1,0 +1,19 @@
+.container{
+    display:flex;
+}
+.calender-container{
+    width : 70vw;
+    height : 100vh;
+    border-right : 1px black;
+    flex-direction: column;
+}
+.calender-info-container{
+    height:15%;
+}
+.calender-date-container{
+    height:85%;
+}
+.todo-container{
+    width : 30vw;
+    height : 100vh;
+}
