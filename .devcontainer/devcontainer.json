@@ -3,7 +3,8 @@
   "extensions": [
     "vmware.vscode-boot-dev-pack",
     "vscjava.vscode-java-pack",
-    "cweijan.vscode-mysql-client2"
+    "cweijan.vscode-mysql-client2",
+    "xabikos.javascriptsnippets"
   ],
   "features": {}
 }
