@@ -8,7 +8,17 @@
     <body>
         <div class="container">
             <div class="calender-container">
-                <div class="calender-info-container"> JULY</div>
+                <div class="calender-info-container">
+                    <div class="calender-info-month">
+                        <span id="calender-info-month-text"> JULY</span>
+                        <span id="calender-info-year-text">2025</span>
+                    </div>
+                    <div class="calender-info-button-container">
+                        <button onclick='alert("l")' id="calender-info-leftbutton" class="calender-info-button"></button>
+                        <button onclick='alert("t")' id="calender-info-todaybutton" class="calender-info-button">TODAY</button>
+                        <button onclick='alert("r")' id="calender-info-rightbutton" class="calender-info-button"></button>
+                    </div>
+                </div>
                 <div class="calender-date-container"> 날짜</div>
             </div>
             <div class = "todo-container"> TODO_List </div>

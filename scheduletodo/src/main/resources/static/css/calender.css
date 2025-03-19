@@ -6,9 +6,50 @@
     height : 100vh;
     border-right : 1px black;
     flex-direction: column;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 .calender-info-container{
+    display:flex;
     height:15%;
+    font-size: 60px;
+    font-weight: bold;
+}
+.calender-info-month{
+    margin-top: auto;
+}
+#calender-info-month-text{
+    color:black;
+}
+#calender-info-year-text{
+    color:red;
+}
+.calender-info-button-container{
+    margin-top: auto;
+    margin-left: auto;
+    font-size:0px;
+}
+#calender-info-leftbutton{
+    background-image: url(/images/leftbutton.png);
+    width: 40px;
+    height: 40px;
+}
+#calender-info-rightbutton{
+    background-image: url(/images/rightbutton.png);
+    width: 40px;
+    height: 40px;
+}
+#calender-info-todaybutton{
+    color:black;
+    font-size: 50px;
+    font-weight: bold;
+}
+.calender-info-button{
+    background-color: transparent;
+    background-repeat: no-repeat ;
+    border:none;
+    cursor:pointer;
+    background-size:contain;
 }
 .calender-date-container{
     height:85%;
