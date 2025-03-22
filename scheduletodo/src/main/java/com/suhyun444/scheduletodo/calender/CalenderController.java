@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -22,9 +22,9 @@ public class CalenderController
         return "index";
     }
     @PostMapping("/add/schedule")
-    public ResponseEntity<Schedule> AddSchedule(@RequestBody String entity) {
-        
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public String AddSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
+        System.out.println(scheduleDTO.toString()); 
+        return "redirect:https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/";
     }
     
 

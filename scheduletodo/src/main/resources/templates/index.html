@@ -35,7 +35,7 @@
                 </div>
                 <div id="calender-addschedule-popup">
                     <button class="close-button" onclick="closeAddSchedulePopup()">✖</button>
-                    <form style="line-height: 40%;">
+                    <form style="line-height: 40%;" action="/add/schedule" method="post">
                         <input type="text" name="name" placeholder="이름">
                         <input type="color" name="color" value="#00FFFF">
                         <br><br>
@@ -45,7 +45,7 @@
                         <br><br>
                         <textarea name="description" cols="50" rows="5" placeholder="설명"></textarea>
                         <br><br>
-                        <input type="submit">
+                        <input type="submit" value="저장">
                     </form>
                 </div>
             </div>
