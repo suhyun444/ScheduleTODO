@@ -34,13 +34,14 @@
 
                 </div>
                 <div id="calender-addschedule-popup">
+                    <button class="close-button" onclick="closeAddSchedulePopup()">✖</button>
                     <form style="line-height: 40%;">
                         <input type="text" name="name" placeholder="이름">
-                        <input type="color" name="color">
+                        <input type="color" name="color" value="#00FFFF">
                         <br><br>
-                        <input type="date" name="startDate">
+                        <input type="date" name="startDate" id="input-start-date">
                         ~
-                        <input type="date" name="endDate">
+                        <input type="date" name="endDate" id="input-end-date">
                         <br><br>
                         <textarea name="description" cols="50" rows="5" placeholder="설명"></textarea>
                         <br><br>

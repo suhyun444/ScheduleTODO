@@ -65,9 +65,24 @@ function moveCalender()
         let day = document.createElement('div');
         day.classList.add('calender-date')
         if(!iscurrent)day.classList.add('calender-date-notcurrent');
-        day.onclick=function(){console.log(day.innerText);}
+        let dateInfo = currentDate.toISOString().split("T")[0];
+        day.onclick=function(){openAddSchedulePopup(dateInfo);}
         day.innerText = currentDate.getMonth()+"/"+currentDate.getDate();
         currentDate.setDate(currentDate.getDate() + 1);
         dayContainer.appendChild(day);
     }
+}
+function openAddSchedulePopup(date)
+{
+    let popup = document.getElementById('calender-addschedule-popup');
+    popup.style.display='flex';
+    let startDate = document.getElementById('input-start-date');
+    let endDate = document.getElementById('input-end-date');
+    startDate.value = date;
+    endDate.value = date;
+}
+function closeAddSchedulePopup()
+{
+    let popup = document.getElementById('calender-addschedule-popup');
+    popup.style.display='none';
 }
