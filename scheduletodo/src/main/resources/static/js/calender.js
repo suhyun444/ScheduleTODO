@@ -65,9 +65,9 @@ function moveCalender()
         let day = document.createElement('div');
         day.classList.add('calender-date')
         if(!iscurrent)day.classList.add('calender-date-notcurrent');
-        let dateInfo = currentDate.toISOString().split("T")[0];
+        let dateInfo = currentDate.toLocaleDateString("sv-SE");
         day.onclick=function(){openAddSchedulePopup(dateInfo);}
-        day.innerText = currentDate.getMonth()+"/"+currentDate.getDate();
+        day.innerText = (currentDate.getMonth() + 1 )+"/"+currentDate.getDate();
         currentDate.setDate(currentDate.getDate() + 1);
         dayContainer.appendChild(day);
     }
