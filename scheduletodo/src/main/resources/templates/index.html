@@ -3,6 +3,7 @@
     <head>
         <title> 일정관리 </title>
         <link rel="stylesheet" type="text/css" href="/css/calender.css">
+        <link rel="stylesheet" type="text/css" href="/css/todo.css">
         <script defer src="/js/calender.js"></script>
     </head>
     
@@ -20,35 +21,31 @@
                         <button onclick='monthIncrease()' id="calender-info-rightbutton" class="calender-info-button"></button>
                     </div>
                 </div>
-                <div class="calender-date-container"> 
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
-                    <div class="calender-date"></div>
+                <div class="calender-date-day-container">
+                    <div class="calender-date-day"> SUN.</div>
+                    <div class="calender-date-day"> MON.</div>
+                    <div class="calender-date-day"> TUE.</div>
+                    <div class="calender-date-day"> WED.</div>
+                    <div class="calender-date-day"> THU.</div>
+                    <div class="calender-date-day"> FRI.</div>
+                    <div class="calender-date-day"> SAT.</div>
+                </div>
+                <div id="calender-date-container"> 
+
+                </div>
+                <div id="calender-addschedule-popup">
+                    <form style="line-height: 40%;">
+                        <input type="text" name="name" placeholder="이름">
+                        <input type="color" name="color">
+                        <br><br>
+                        <input type="date" name="startDate">
+                        ~
+                        <input type="date" name="endDate">
+                        <br><br>
+                        <textarea name="description" cols="50" rows="5" placeholder="설명"></textarea>
+                        <br><br>
+                        <input type="submit">
+                    </form>
                 </div>
             </div>
             <div class = "todo-container"> TODO_List </div>

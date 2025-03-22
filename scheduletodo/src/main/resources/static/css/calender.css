@@ -20,6 +20,7 @@
 }
 #calender-info-month-text{
     color:black;
+    width:140px;
 }
 #calender-info-year-text{
     color:red;
@@ -51,8 +52,24 @@
     cursor:pointer;
     background-size:contain;
 }
-.calender-date-container{
-    height:80%;
+.calender-date-day-container{
+    height:7%;
+    display:flex;
+    align-items:flex-end;
+}
+.calender-date-day{
+    width:calc(100%/7);
+    font-size:15px;
+    font-weight: bold;
+}
+.calender-date-day:first-child{
+    color:red;
+}
+.calender-date-day:last-child{
+    color:blue;
+}
+#calender-date-container{
+    height:73%;
     display:flex;
     flex-wrap:wrap;
     align-items: flex-start;
@@ -61,19 +78,38 @@
 .calender-date{
     width:calc(100%/7);
     box-sizing:border-box;
-    aspect-ratio:1/1;
+    aspect-ratio:4/3;
     border-top: 1px solid black;
     border-left: 1px solid black;
+    cursor:pointer;
+}
+.calender-date-notcurrent{
+    background-color: gainsboro;
+}
+.calender-date:nth-child(7n-6){
+    color:red;
 }
 .calender-date:nth-child(7n)
 {
     border-right: 1px solid black;
+    color:blue;
 }
 .calender-date:nth-last-child(-n+7)
 {
     border-bottom : 1px solid black;
 }
-.todo-container{
-    width : 30vw;
-    height : 100vh;
+#calender-addschedule-popup
+{
+    display: flex; 
+    position: fixed; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-72.5%, -40%); /* 중앙 정렬 */
+    width: 370px;
+    height: 180px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid black;
+    z-index: 1000; 
 }

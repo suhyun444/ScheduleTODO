@@ -5,7 +5,7 @@ monthCurrent();
 
 function monthDecrease()
 {
-    if(currentMonth == 0 && currentYear == 1) return;
+    if(currentMonth == 0 && currentYear == 1000) return;
     currentMonth--;
     if(currentMonth < 0)
     {
@@ -13,6 +13,7 @@ function monthDecrease()
         currentYear--;
     }
     updateText();
+    moveCalender();
 }
 function monthIncrease()
 {
@@ -23,12 +24,14 @@ function monthIncrease()
         currentYear++;
     }
     updateText();
+    moveCalender();
 }
 function monthCurrent()
 {
     currentYear = today.getFullYear();
     currentMonth = today.getMonth(); 
     updateText();  
+    moveCalender();
 }
 function updateText()
 {
@@ -36,4 +39,35 @@ function updateText()
     monthElement.innerText = monthText[currentMonth];
     let yearElement = document.getElementById('calender-info-year-text');
     yearElement.innerText = currentYear;
+}
+function moveCalender()
+{
+    let dayContainer = document.getElementById("calender-date-container");
+    dayContainer.replaceChildren();
+    let currentDate = new Date(currentYear,currentMonth,1,0,0,0,0);
+    let dayOfWeek = currentDate.getDay();
+    currentDate.setDate(currentDate.getDate() - dayOfWeek);
+    for(let i=0;i<dayOfWeek;++i)
+    {
+        addDayChild(false);
+    }
+    while(currentMonth == currentDate.getMonth())
+    {
+        addDayChild(true);
+    }
+    dayOfWeek = currentDate.getDay();
+    for(let i=dayOfWeek;i<7;++i)
+    {
+        addDayChild(false);
+    }
+    function addDayChild(iscurrent)
+    {
+        let day = document.createElement('div');
+        day.classList.add('calender-date')
+        if(!iscurrent)day.classList.add('calender-date-notcurrent');
+        day.onclick=function(){console.log(day.innerText);}
+        day.innerText = currentDate.getMonth()+"/"+currentDate.getDate();
+        currentDate.setDate(currentDate.getDate() + 1);
+        dayContainer.appendChild(day);
+    }
 }
