@@ -23,7 +23,7 @@ public class CalenderController
     }
     @PostMapping("/add/schedule")
     public String AddSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
-        System.out.println(scheduleDTO.toString()); 
+        calenderService.AddSchedule(scheduleDTO);
         return "redirect:https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/";
     }
     

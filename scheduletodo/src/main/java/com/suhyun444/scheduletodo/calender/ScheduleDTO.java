@@ -12,9 +12,12 @@ public class ScheduleDTO {
     private String color;
     private LocalDate startDate;
     private LocalDate endDate;
-    private String description;   
+    private String description;
     @Override
     public String toString() {
         return name + " " + color + " " + startDate.toString() + " ~ " + endDate.toString() + " " + description;
+    }
+    public Schedule ToEntity(){
+        return Schedule.builder().name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
     }
 }

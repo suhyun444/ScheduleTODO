@@ -7,5 +7,9 @@ import org.springframework.stereotype.Service;
 public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
-        
+    
+    public void AddSchedule(ScheduleDTO scheduleDTO)
+    {
+        calenderRepository.save(scheduleDTO.ToEntity());
+    }
 }
