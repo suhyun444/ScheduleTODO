@@ -7,8 +7,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -17,6 +19,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Schedule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -30,4 +34,7 @@ public class Schedule {
     private LocalDate endDate;
     @Column(nullable = true)
     private String description;
+    public ScheduleDTO ToDTO(){
+        return ScheduleDTO.builder().name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
+    }
 }

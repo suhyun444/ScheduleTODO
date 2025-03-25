@@ -82,6 +82,8 @@
     border-top: 1px solid black;
     border-left: 1px solid black;
     cursor:pointer;
+    display: flex;
+    flex-direction: column;
 }
 .calender-date-notcurrent{
     background-color: gainsboro;
@@ -97,6 +99,13 @@
 .calender-date:nth-last-child(-n+7)
 {
     border-bottom : 1px solid black;
+}
+.calender-schedule
+{
+    border-radius: 8px;
+    text-align: center;
+    height: 25px;
+    margin: 1px;
 }
 #calender-addschedule-popup
 {
