@@ -92,6 +92,7 @@ function createSchedules(schedules,start,end)
             
             let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
             let scheduleButton = document.createElement('div');
+            scheduleButton.setAttribute('id',schedule.id);
             scheduleButton.innerText = schedule.name;
             scheduleButton.classList.add('calender-schedule');
             scheduleButton.style = 'background : '+schedule.color+';';

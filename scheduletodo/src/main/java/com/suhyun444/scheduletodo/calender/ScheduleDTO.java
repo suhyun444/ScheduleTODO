@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ScheduleDTO {
+    private long id;
     private String name;
     private String color;
     private LocalDate startDate;
@@ -20,6 +21,6 @@ public class ScheduleDTO {
         return name + " " + color + " " + startDate.toString() + " ~ " + endDate.toString() + " " + description;
     }
     public Schedule ToEntity(){
-        return Schedule.builder().name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
+        return Schedule.builder().id(id).name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
     }
 }

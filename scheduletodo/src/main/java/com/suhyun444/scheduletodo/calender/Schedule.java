@@ -35,6 +35,6 @@ public class Schedule {
     @Column(nullable = true)
     private String description;
     public ScheduleDTO ToDTO(){
-        return ScheduleDTO.builder().name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
+        return ScheduleDTO.builder().id(id).name(name).color(color).startDate(startDate).endDate(endDate).description(description).build();
     }
 }
