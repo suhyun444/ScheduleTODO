@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Builder
 public class ScheduleDTO {
-    private long id;
+    private Long id;
     private String name;
     private String color;
     private LocalDate startDate;

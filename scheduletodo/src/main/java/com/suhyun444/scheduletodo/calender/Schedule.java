@@ -23,7 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Schedule {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(nullable = true)
     private String name;
     @Column(nullable = false)
