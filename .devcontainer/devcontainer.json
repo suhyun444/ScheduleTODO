@@ -9,5 +9,10 @@
         "xabikos.javascriptsnippets"
       ]
     }
+  },
+  "features": {
+    "java": {
+      "version": "17"
+    }
   }
 }
