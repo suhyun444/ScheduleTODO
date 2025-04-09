@@ -3,6 +3,36 @@ let today = new Date();
 
 monthCurrent();
 
+const form = document.getElementById("input-form");
+
+document.getElementById("input-save").addEventListener("click",function(){
+    event.preventDefault();
+    const formData = new FormData(form);
+    fetch("/save/schedule",
+        {
+            method: "POST",
+            body : formData
+        }
+    )
+        .then(response => response.text())
+        .then(url => {
+            window.location.href = url; 
+        });
+});
+document.getElementById("input-delete").addEventListener("click",function(){
+    event.preventDefault(); 
+    const formData = new FormData(form);
+    fetch("/delete/schedule",
+        {
+            method: "POST",
+            body : formData
+        }
+    )
+        .then(response => response.text())
+        .then(url => {
+            window.location.href = url; 
+        });
+});
 function monthDecrease()
 {
     if(currentMonth == 0 && currentYear == 1000) return;
@@ -72,7 +102,7 @@ function moveCalender()
         day.classList.add('calender-date')
         if(!iscurrent)day.classList.add('calender-date-notcurrent');
         let dateInfo = currentDate.toLocaleDateString("sv-SE");
-        day.onclick=function(){openAddSchedulePopup(dateInfo);}
+        day.addEventListener("click", function() {openAddSchedulePopup(null,null,"#00FFFF",dateInfo,dateInfo,null)});
         day.setAttribute('id',(currentDate.getMonth() + 1) + "-" + currentDate.getDate());
         day.innerText = (currentDate.getMonth() + 1 )+"/"+currentDate.getDate();
         currentDate.setDate(currentDate.getDate() + 1);
@@ -86,16 +116,15 @@ function createSchedules(schedules,start,end)
     schedules.forEach(schedule => {
         let current = new Date(maxDate(start,schedule.startDate));
         let last = new Date(minDate(end,schedule.endDate));
-        
         while(current <= last)
-        {
-            
+        {    
             let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
             let scheduleButton = document.createElement('div');
             scheduleButton.setAttribute('id',schedule.id);
             scheduleButton.innerText = schedule.name;
             scheduleButton.classList.add('calender-schedule');
             scheduleButton.style = 'background : '+schedule.color+';';
+            scheduleButton.addEventListener("click", function() {event.stopPropagation();openAddSchedulePopup(schedule.id,schedule.name,schedule.color,schedule.startDate,schedule.endDate,schedule.description);});
             day.appendChild(scheduleButton); 
             current.setDate(current.getDate() + 1);
         }
@@ -111,14 +140,22 @@ function maxDate(a,b)
     if(a > b)return a;
     return b;
 }
-function openAddSchedulePopup(date)
+function openAddSchedulePopup(id,name,color,startDate,endDate,description)
 {
     let popup = document.getElementById('calender-addschedule-popup');
+    let idInput = document.getElementById('input-id');
+    let nameInput = document.getElementById('input-name');
+    let colorInput = document.getElementById('input-color');
+    let startDateInput = document.getElementById('input-start-date');
+    let endDateInput = document.getElementById('input-end-date');
+    let descriptionInput = document.getElementById('input-description');
     popup.style.display='flex';
-    let startDate = document.getElementById('input-start-date');
-    let endDate = document.getElementById('input-end-date');
-    startDate.value = date;
-    endDate.value = date;
+    idInput.value = id;
+    nameInput.value = name;
+    colorInput.value = color;
+    startDateInput.value = startDate;
+    endDateInput.value = endDate;
+    descriptionInput.value = description;
 }
 function closeAddSchedulePopup()
 {

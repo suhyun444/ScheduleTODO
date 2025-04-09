@@ -12,13 +12,17 @@ public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
     
-    public void AddSchedule(ScheduleDTO scheduleDTO)
+    public void SaveSchedule(ScheduleDTO scheduleDTO)
     {
         calenderRepository.save(scheduleDTO.ToEntity());
     }
+    public void DeleteSchedule(ScheduleDTO scheduleDTO)
+    {
+        calenderRepository.delete(scheduleDTO.ToEntity());
+    }
     public List<ScheduleDTO> GetSchedules(LocalDate start, LocalDate end)
     {
-        List<Schedule> entities = calenderRepository.findByEndDateGreaterThanOrStartDateLessThanEqual(start, end);
+        List<Schedule> entities = calenderRepository.findByEndDateGreaterThanAndStartDateLessThanEqual(start, end);
         List<ScheduleDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {

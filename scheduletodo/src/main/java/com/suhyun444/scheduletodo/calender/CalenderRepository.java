@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 //gcp사용하는 방법을 알아보자 https://namu.wiki/w/Google%20Cloud%20Platform#s-5
 @Repository
 public interface CalenderRepository extends JpaRepository<Schedule,Long> {
-        List<Schedule> findByEndDateGreaterThanOrStartDateLessThanEqual(LocalDate start,LocalDate end);
+        List<Schedule> findByEndDateGreaterThanAndStartDateLessThanEqual(LocalDate start,LocalDate end);
 }
