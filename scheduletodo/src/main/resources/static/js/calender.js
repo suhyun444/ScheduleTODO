@@ -91,6 +91,7 @@ function moveCalender()
     {
         addDayChild(false);
     }
+    currentDate.setDate(currentDate.getDate() - 1);
     let end = currentDate.toLocaleDateString("sv-SE");
     fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/schedules?start=' + start +'&end='+end)
         .then(response => response.json())
@@ -114,8 +115,8 @@ function moveCalender()
 function createSchedules(schedules,start,end)
 {
     schedules.forEach(schedule => {
-        let current = new Date(maxDate(start,schedule.startDate));
-        let last = new Date(minDate(end,schedule.endDate));
+        let current = maxDate(start,new Date(schedule.startDate));
+        let last = minDate(end,new Date(schedule.endDate));
         while(current <= last)
         {    
             let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
@@ -132,12 +133,12 @@ function createSchedules(schedules,start,end)
 }
 function minDate(a,b)
 {
-    if(a < b)return a;
+    if(a.getTime()< b.getTime())return a;
     return b;
 }
 function maxDate(a,b)
 {
-    if(a > b)return a;
+    if(a.getTime() > b.getTime())return a;
     return b;
 }
 function openAddSchedulePopup(id,name,color,startDate,endDate,description)
