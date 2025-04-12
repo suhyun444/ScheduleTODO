@@ -18,6 +18,7 @@ document.getElementById("input-save").addEventListener("click",function(){
     )
         .then(response => response.json())
         .then(schedule => {
+            removeSchedule(formData.get("id"));
             createSchedule(schedule);
             closeAddSchedulePopup();
         });
@@ -134,7 +135,7 @@ function createSchedule(schedule)
         let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
         let scheduleButton = document.createElement('div');
         scheduleButton.innerText = schedule.name;
-        scheduleButton.classList.add(schedule.id);
+        scheduleButton.classList.add("schedule-"+schedule.id);
         scheduleButton.classList.add('calender-schedule');
         scheduleButton.style = 'background : '+schedule.color+';';
         scheduleButton.addEventListener("click", function() {event.stopPropagation();openAddSchedulePopup(schedule.id,schedule.name,schedule.color,schedule.startDate,schedule.endDate,schedule.description);});
@@ -145,9 +146,7 @@ function createSchedule(schedule)
 function removeSchedule(id)
 {
     console.log(id);
-    let schedules = document.getElementsByClassName(id);
-    console.log(schedules);
-    schedules.forEach(schedule => {schedule.remove();});
+    document.querySelectorAll(".schedule-"+id).forEach(el => el.remove());
 }
 function minDate(a,b)
 {
