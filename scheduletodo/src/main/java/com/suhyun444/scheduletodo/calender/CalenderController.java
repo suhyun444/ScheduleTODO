@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 
@@ -28,14 +29,14 @@ public class CalenderController
         return "index";
     }
     @PostMapping("/save/schedule")
-    public ResponseEntity<String> SaveSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
-        calenderService.SaveSchedule(scheduleDTO);
-        return ResponseEntity.ok("https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/");
+    public ResponseEntity<ScheduleDTO> SaveSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
+        ScheduleDTO result = calenderService.SaveSchedule(scheduleDTO);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/schedule")
-    public ResponseEntity<String> DeleteSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
+    @ResponseStatus(HttpStatus.OK)
+    public void DeleteSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
         calenderService.DeleteSchedule(scheduleDTO);
-        return ResponseEntity.ok("https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/");
     }
     @GetMapping("/get/schedules")
     public ResponseEntity<List<ScheduleDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {

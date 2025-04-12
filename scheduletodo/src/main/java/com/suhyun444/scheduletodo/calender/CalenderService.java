@@ -12,9 +12,11 @@ public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
     
-    public void SaveSchedule(ScheduleDTO scheduleDTO)
+    public ScheduleDTO SaveSchedule(ScheduleDTO scheduleDTO)
     {
-        calenderRepository.save(scheduleDTO.ToEntity());
+        Schedule schedule = scheduleDTO.ToEntity();
+        calenderRepository.save(schedule);
+        return schedule.ToDTO();
     }
     public void DeleteSchedule(ScheduleDTO scheduleDTO)
     {

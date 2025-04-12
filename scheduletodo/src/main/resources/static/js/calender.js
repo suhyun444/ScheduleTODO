@@ -1,5 +1,7 @@
 let monthText = ['JAN.','FEB.','MAR.','APR.','MAY.','JUN.','JUL.','AGU.','SEP.','OCT.','NOV.','DEC.'];
 let today = new Date();   
+let currentCalenderStart;
+let currentCalenderEnd;
 
 monthCurrent();
 
@@ -14,9 +16,10 @@ document.getElementById("input-save").addEventListener("click",function(){
             body : formData
         }
     )
-        .then(response => response.text())
-        .then(url => {
-            window.location.href = url; 
+        .then(response => response.json())
+        .then(schedule => {
+            createSchedule(schedule);
+            closeAddSchedulePopup();
         });
 });
 document.getElementById("input-delete").addEventListener("click",function(){
@@ -28,9 +31,13 @@ document.getElementById("input-delete").addEventListener("click",function(){
             body : formData
         }
     )
-        .then(response => response.text())
-        .then(url => {
-            window.location.href = url; 
+        .then(response => {
+            if(response.ok)
+            {
+                let id = formData.get("id");
+                removeSchedule(id);
+                closeAddSchedulePopup();
+            }
         });
 });
 function monthDecrease()
@@ -77,7 +84,7 @@ function moveCalender()
     let currentDate = new Date(currentYear,currentMonth,1,0,0,0,0);
     let dayOfWeek = currentDate.getDay();
     currentDate.setDate(currentDate.getDate() - dayOfWeek);
-    let start = currentDate.toLocaleDateString("sv-SE");
+    currentCalenderStart = currentDate.toLocaleDateString("sv-SE");
     for(let i=0;i<dayOfWeek;++i)
     {
         addDayChild(false);
@@ -92,10 +99,10 @@ function moveCalender()
         addDayChild(false);
     }
     currentDate.setDate(currentDate.getDate() - 1);
-    let end = currentDate.toLocaleDateString("sv-SE");
-    fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/schedules?start=' + start +'&end='+end)
+    currentCalenderEnd = currentDate.toLocaleDateString("sv-SE");
+    fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/schedules?start=' + currentCalenderStart +'&end='+currentCalenderEnd)
         .then(response => response.json())
-        .then(data => createSchedules(data,new Date(start),new Date(end)))
+        .then(data => createSchedules(data))
         .catch(error => console.error('erro', error));
     function addDayChild(iscurrent)
     {
@@ -110,26 +117,37 @@ function moveCalender()
         dayContainer.appendChild(day);
     }
 }
-//https://bttrthn-ystrdy.tistory.com/19 appendChild는 복사해서 부모에게 넣어주는것이 아닌
-//자식 객체를 부모객체에 넣어주는것이다 즉 복사가 아닌 이동이다
-function createSchedules(schedules,start,end)
+function createSchedules(schedules)
 {
     schedules.forEach(schedule => {
-        let current = maxDate(start,new Date(schedule.startDate));
-        let last = minDate(end,new Date(schedule.endDate));
-        while(current <= last)
-        {    
-            let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
-            let scheduleButton = document.createElement('div');
-            scheduleButton.setAttribute('id',schedule.id);
-            scheduleButton.innerText = schedule.name;
-            scheduleButton.classList.add('calender-schedule');
-            scheduleButton.style = 'background : '+schedule.color+';';
-            scheduleButton.addEventListener("click", function() {event.stopPropagation();openAddSchedulePopup(schedule.id,schedule.name,schedule.color,schedule.startDate,schedule.endDate,schedule.description);});
-            day.appendChild(scheduleButton); 
-            current.setDate(current.getDate() + 1);
-        }
+        createSchedule(schedule);
     });
+}
+//https://bttrthn-ystrdy.tistory.com/19 appendChild는 복사해서 부모에게 넣어주는것이 아닌
+//자식 객체를 부모객체에 넣어주는것이다 즉 복사가 아닌 이동이다
+function createSchedule(schedule)
+{
+    let current = maxDate(new Date(currentCalenderStart),new Date(schedule.startDate));
+    let last = minDate(new Date(currentCalenderEnd),new Date(schedule.endDate));
+    while(current <= last)
+    {    
+        let day = document.getElementById((current.getMonth() + 1) + "-" + current.getDate());
+        let scheduleButton = document.createElement('div');
+        scheduleButton.innerText = schedule.name;
+        scheduleButton.classList.add(schedule.id);
+        scheduleButton.classList.add('calender-schedule');
+        scheduleButton.style = 'background : '+schedule.color+';';
+        scheduleButton.addEventListener("click", function() {event.stopPropagation();openAddSchedulePopup(schedule.id,schedule.name,schedule.color,schedule.startDate,schedule.endDate,schedule.description);});
+        day.appendChild(scheduleButton); 
+        current.setDate(current.getDate() + 1);
+    }
+}
+function removeSchedule(id)
+{
+    console.log(id);
+    let schedules = document.getElementsByClassName(id);
+    console.log(schedules);
+    schedules.forEach(schedule => {schedule.remove();});
 }
 function minDate(a,b)
 {
@@ -143,6 +161,10 @@ function maxDate(a,b)
 }
 function openAddSchedulePopup(id,name,color,startDate,endDate,description)
 {
+    if(id == null)
+        document.getElementById("input-delete").style.visibility = "hidden";
+    else
+        document.getElementById("input-delete").style.visibility = "visible";
     let popup = document.getElementById('calender-addschedule-popup');
     let idInput = document.getElementById('input-id');
     let nameInput = document.getElementById('input-name');
@@ -157,6 +179,7 @@ function openAddSchedulePopup(id,name,color,startDate,endDate,description)
     startDateInput.value = startDate;
     endDateInput.value = endDate;
     descriptionInput.value = description;
+
 }
 function closeAddSchedulePopup()
 {
