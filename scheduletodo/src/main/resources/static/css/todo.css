@@ -1,4 +1,65 @@
-.todo-container{
-    width : 30vw;
-    height : 100vh;
+.todo-container
+{
+    width:35vw;
+    height:100vh;
+}
+.todo-info-container
+{
+    height:15%;
+    display:flex;
+    font-size: 60px;
+    font-weight: bold;
+}
+.todo-info-text
+{
+    margin-top:auto;
+}
+.todo-list-container
+{
+    height : 75%;
+    margin-top: 30px;
+}
+.todo
+{
+    width: 95%;
+    height: 40px;
+    border-radius: 20px;
+    margin-bottom: 13px;
+    text-align: left;
+    background-color: #73b573;
+    display:flex;
+    align-items : center;
+}
+.todo-day-text
+{
+    width: 10%;
+    color: black;
+    margin-left: 15px;
+    border-right: 1px solid black;
+}
+.todo-name-text
+{
+    width: 90%;
+    margin-left: 5px;
+    color: black;
+}
+.todo-inprogress
+{
+    background-color : greenyellow;
+}
+.todo-dday
+{
+    background-color: rgb(255, 0, 0);
+}
+.todo-d1
+{
+    background-color: rgb(255, 85, 0);
+}
+.todo-d2
+{
+    background-color: rgb(255, 170, 0);
+}
+.todo-d3
+{
+    background-color: rgb(255, 255, 0);
 }

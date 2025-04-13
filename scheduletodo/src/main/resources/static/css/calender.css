@@ -2,7 +2,7 @@
     display:flex;
 }
 .calender-container{
-    width : 70vw;
+    width : 65vw;
     height : 100vh;
     border-right : 1px black;
     flex-direction: column;
