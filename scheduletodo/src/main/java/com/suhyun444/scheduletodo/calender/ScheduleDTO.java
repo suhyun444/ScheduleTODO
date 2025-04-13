@@ -1,7 +1,5 @@
 package com.suhyun444.scheduletodo.calender;
 
-import java.time.LocalDate;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

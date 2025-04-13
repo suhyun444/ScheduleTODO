@@ -29,12 +29,8 @@ public class CalenderController
     }
     @PostMapping("/save/schedule")
     public ResponseEntity<TodoWithScheduleDTO> SaveSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
-        System.out.println("asdasdasdasdasdadsasdasd");
-        System.out.println(todoWithScheduleDTO);
-        System.out.println(todoWithScheduleDTO.getTodo().getName());
-        //TodoWithScheduleDTO result = calenderService.SaveTodoWithSchedule(scheduleDTO);
-        //return new ResponseEntity<>(result,HttpStatus.OK);
-        return new ResponseEntity<>(null,HttpStatus.OK);
+        TodoWithScheduleDTO result = calenderService.SaveTodoWithSchedule(todoWithScheduleDTO);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/schedule")
     @ResponseStatus(HttpStatus.OK)

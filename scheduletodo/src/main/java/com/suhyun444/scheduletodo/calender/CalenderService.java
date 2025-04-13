@@ -12,12 +12,12 @@ public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
     
-    public ScheduleDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
+    public TodoWithScheduleDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
-        //Schedule schedule = scheduleDTO.ToEntity();
-        //calenderRepository.save(schedule);
-        //return schedule.ToDTO();
-        return null;
+        Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
+        todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
+        calenderRepository.save(todo);
+        return todo.ToTodoWithScheduleDTO();
     }
     public void DeleteSchedule(ScheduleDTO scheduleDTO)
     {

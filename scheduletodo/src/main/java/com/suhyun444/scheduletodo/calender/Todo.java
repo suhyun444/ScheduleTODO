@@ -3,10 +3,12 @@ package com.suhyun444.scheduletodo.calender;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +34,15 @@ public class Todo {
     private LocalDate endDate;
     @Column(nullable = false)
     private Boolean isCompleted;
+
+    @OneToOne(mappedBy = "todo", cascade = CascadeType.ALL)
+    private Schedule schedule;
+
     public TodoDTO ToDTO(){
         return TodoDTO.builder().id(id).name(name).startDate(startDate).endDate(endDate).isCompleted(isCompleted).build();
+    }
+    public TodoWithScheduleDTO ToTodoWithScheduleDTO()
+    {
+        return TodoWithScheduleDTO.builder().todo(ToDTO()).schedule(schedule.ToDTO()).build();
     }
 }
