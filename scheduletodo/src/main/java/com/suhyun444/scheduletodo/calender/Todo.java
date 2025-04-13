@@ -7,9 +7,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,18 +21,18 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Schedule {
-    @Id 
+public class Todo {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @MapsId
-    @OneToOne
-    @JoinColumn(name="id")
-    private Todo todo;
     @Column(nullable = false)
-    private String color;
+    private String name;
     @Column(nullable = true)
-    private String description;
-    public ScheduleDTO ToDTO(){
-        return ScheduleDTO.builder().id(id).color(color).description(description).build();
+    private LocalDate startDate;
+    @Column(nullable = false)
+    private LocalDate endDate;
+    @Column(nullable = false)
+    private Boolean isCompleted;
+    public TodoDTO ToDTO(){
+        return TodoDTO.builder().id(id).name(name).startDate(startDate).endDate(endDate).isCompleted(isCompleted).build();
     }
 }

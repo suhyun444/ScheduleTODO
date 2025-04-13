@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -27,9 +28,13 @@ public class CalenderController
         return "index";
     }
     @PostMapping("/save/schedule")
-    public ResponseEntity<ScheduleDTO> SaveSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
-        ScheduleDTO result = calenderService.SaveSchedule(scheduleDTO);
-        return new ResponseEntity<>(result,HttpStatus.OK);
+    public ResponseEntity<TodoWithScheduleDTO> SaveSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
+        System.out.println("asdasdasdasdasdadsasdasd");
+        System.out.println(todoWithScheduleDTO);
+        System.out.println(todoWithScheduleDTO.getTodo().getName());
+        //TodoWithScheduleDTO result = calenderService.SaveTodoWithSchedule(scheduleDTO);
+        //return new ResponseEntity<>(result,HttpStatus.OK);
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
     @PostMapping("/delete/schedule")
     @ResponseStatus(HttpStatus.OK)

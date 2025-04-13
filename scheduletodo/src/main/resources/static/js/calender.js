@@ -10,10 +10,28 @@ const form = document.getElementById("input-form");
 document.getElementById("input-save").addEventListener("click",function(){
     event.preventDefault();
     const formData = new FormData(form);
+    const data = 
+    {
+        todo:
+        {
+            id : formData.get("id"),
+            name : formData.get("name"),
+            startDate : formData.get("startDate"),
+            endDate : formData.get("endDate"),
+            isCompleted : false
+        },
+        schedule:
+        {
+            color : formData.get("color"),
+            description : formData.get("description")
+        }
+    }
+    console.log(data);
     fetch("/save/schedule",
         {
             method: "POST",
-            body : formData
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(data)
         }
     )
         .then(response => response.json())
