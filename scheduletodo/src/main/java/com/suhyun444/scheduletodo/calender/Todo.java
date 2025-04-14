@@ -35,7 +35,7 @@ public class Todo {
     @Column(nullable = false)
     private Boolean isCompleted;
 
-    @OneToOne(mappedBy = "todo", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Schedule schedule;
 
     public TodoDTO ToDTO(){

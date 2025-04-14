@@ -34,8 +34,8 @@ public class CalenderController
     }
     @PostMapping("/delete/schedule")
     @ResponseStatus(HttpStatus.OK)
-    public void DeleteSchedule(@ModelAttribute ScheduleDTO scheduleDTO) {
-        calenderService.DeleteSchedule(scheduleDTO);
+    public void DeleteSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
+        calenderService.DeleteSchedule(todoWithScheduleDTO);
     }
     @GetMapping("/get/schedules")
     public ResponseEntity<List<TodoWithScheduleDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {

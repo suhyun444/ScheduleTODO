@@ -18,7 +18,7 @@ document.getElementById("input-save").addEventListener("click",function(){
             name : formData.get("name"),
             startDate : formData.get("startDate"),
             endDate : formData.get("endDate"),
-            isCompleted : false
+            isCompleted : formData.get("isCompleted")
         },
         schedule:
         {
@@ -26,7 +26,6 @@ document.getElementById("input-save").addEventListener("click",function(){
             description : formData.get("description")
         }
     }
-    console.log(data);
     fetch("/save/schedule",
         {
             method: "POST",
@@ -44,10 +43,27 @@ document.getElementById("input-save").addEventListener("click",function(){
 document.getElementById("input-delete").addEventListener("click",function(){
     event.preventDefault(); 
     const formData = new FormData(form);
+    const data = 
+    {
+        todo:
+        {
+            id : formData.get("id"),
+            name : formData.get("name"),
+            startDate : formData.get("startDate"),
+            endDate : formData.get("endDate"),
+            isCompleted : formData.get("isCompleted")
+        },
+        schedule:
+        {
+            color : formData.get("color"),
+            description : formData.get("description")
+        }
+    }
     fetch("/delete/schedule",
         {
             method: "POST",
-            body : formData
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(data)
         }
     )
         .then(response => {
