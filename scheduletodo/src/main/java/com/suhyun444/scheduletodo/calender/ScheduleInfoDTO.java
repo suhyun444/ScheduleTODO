@@ -9,13 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class TodoDTO {
+public class ScheduleInfoDTO {
     private Long id;
     private String name;
+    private String color;
     private LocalDate startDate;
     private LocalDate endDate;
-    private boolean isCompleted;
-    public Todo ToEntity(){
-        return Todo.builder().id(id).name(name).startDate(startDate).endDate(endDate).isCompleted(isCompleted).build();
-    }
+    private Boolean isCompleted;
+    private String description;
 }

@@ -12,25 +12,25 @@ public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
     
-    public TodoWithScheduleDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
+    public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
         todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
         calenderRepository.save(todo);
-        return todo.ToTodoWithScheduleDTO();
+        return todo.ToScheduleInfoDTO();
     }
     public void DeleteSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
         calenderRepository.delete(todo);
     }
-    public List<TodoWithScheduleDTO> GetSchedules(LocalDate start, LocalDate end)
+    public List<ScheduleInfoDTO> GetSchedules(LocalDate start, LocalDate end)
     {
         List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end);
-        List<TodoWithScheduleDTO> dtoList = new ArrayList<>();
+        List<ScheduleInfoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {
-           dtoList.add(entities.get(i).ToTodoWithScheduleDTO());
+           dtoList.add(entities.get(i).ToScheduleInfoDTO());
         }
         return dtoList;
     }

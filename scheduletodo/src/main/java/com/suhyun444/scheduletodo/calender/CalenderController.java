@@ -28,8 +28,8 @@ public class CalenderController
         return "index";
     }
     @PostMapping("/save/schedule")
-    public ResponseEntity<TodoWithScheduleDTO> SaveSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
-        TodoWithScheduleDTO result = calenderService.SaveTodoWithSchedule(todoWithScheduleDTO);
+    public ResponseEntity<ScheduleInfoDTO> SaveSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
+        ScheduleInfoDTO result = calenderService.SaveTodoWithSchedule(todoWithScheduleDTO);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/schedule")
@@ -38,8 +38,8 @@ public class CalenderController
         calenderService.DeleteSchedule(todoWithScheduleDTO);
     }
     @GetMapping("/get/schedules")
-    public ResponseEntity<List<TodoWithScheduleDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
-        List<TodoWithScheduleDTO> result = calenderService.GetSchedules(start,end);
+    public ResponseEntity<List<ScheduleInfoDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+        List<ScheduleInfoDTO> result = calenderService.GetSchedules(start,end);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

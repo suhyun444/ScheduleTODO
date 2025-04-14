@@ -45,4 +45,9 @@ public class Todo {
     {
         return TodoWithScheduleDTO.builder().todo(ToDTO()).schedule(schedule.ToDTO()).build();
     }
+    public ScheduleInfoDTO ToScheduleInfoDTO()
+    {
+        return ScheduleInfoDTO.builder().id(id).name(name).color(schedule.getColor()).startDate(startDate).endDate(endDate)
+        .isCompleted(isCompleted).description(schedule.getDescription()).build();
+    }
 }
