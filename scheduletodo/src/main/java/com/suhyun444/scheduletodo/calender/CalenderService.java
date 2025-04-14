@@ -23,14 +23,14 @@ public class CalenderService {
     {
         //calenderRepository.delete(scheduleDTO.ToEntity());
     }
-    public List<ScheduleDTO> GetSchedules(LocalDate start, LocalDate end)
+    public List<TodoWithScheduleDTO> GetSchedules(LocalDate start, LocalDate end)
     {
-        //List<Schedule> entities = calenderRepository.findByEndDateGreaterThanAndStartDateLessThanEqual(start, end);
-        List<ScheduleDTO> dtoList = new ArrayList<>();
-        //for(int i=0;i<entities.size();++i)
-        //{
-        //    dtoList.add(entities.get(i).ToDTO());
-        //}
+        List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end);
+        List<TodoWithScheduleDTO> dtoList = new ArrayList<>();
+        for(int i=0;i<entities.size();++i)
+        {
+           dtoList.add(entities.get(i).ToTodoWithScheduleDTO());
+        }
         return dtoList;
     }
 }

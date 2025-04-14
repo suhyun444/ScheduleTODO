@@ -38,8 +38,8 @@ public class CalenderController
         calenderService.DeleteSchedule(scheduleDTO);
     }
     @GetMapping("/get/schedules")
-    public ResponseEntity<List<ScheduleDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
-        List<ScheduleDTO> result = calenderService.GetSchedules(start,end);
+    public ResponseEntity<List<TodoWithScheduleDTO>> getMethodName(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+        List<TodoWithScheduleDTO> result = calenderService.GetSchedules(start,end);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

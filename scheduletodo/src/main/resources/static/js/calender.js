@@ -35,9 +35,9 @@ document.getElementById("input-save").addEventListener("click",function(){
         }
     )
         .then(response => response.json())
-        .then(schedule => {
+        .then(data => {
             removeSchedule(formData.get("id"));
-            createSchedule(schedule);
+            createSchedule(todoWithScheduleToData(data));
             closeAddSchedulePopup();
         });
 });
@@ -136,9 +136,23 @@ function moveCalender()
         dayContainer.appendChild(day);
     }
 }
-function createSchedules(schedules)
+function todoWithScheduleToData(data)
 {
-    schedules.forEach(schedule => {
+    const schedule = {
+        id : data.todo.id,
+        name : data.todo.name,
+        color : data.schedule.color,
+        startDate : data.todo.startDate,
+        endDate : data.todo.endDate,
+        description : data.schedule.description
+    }
+    return schedule;
+}
+function createSchedules(dataList)
+{
+    dataList.forEach(data => {
+        const schedule = todoWithScheduleToData(data);
+        console.log(schedule);
         createSchedule(schedule);
     });
 }
