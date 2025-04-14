@@ -1,7 +1,8 @@
-let monthText = ['JAN.','FEB.','MAR.','APR.','MAY.','JUN.','JUL.','AGU.','SEP.','OCT.','NOV.','DEC.'];
+const monthText = ['JAN.','FEB.','MAR.','APR.','MAY.','JUN.','JUL.','AGU.','SEP.','OCT.','NOV.','DEC.'];
 let today = new Date();   
 let currentCalenderStart;
 let currentCalenderEnd;
+const todoListContainer = document.getElementById("todo-list-container"); 
 
 monthCurrent();
 initTodoList();
@@ -82,8 +83,47 @@ function initTodoList()
     fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/todolist?now=' + today.toLocaleDateString("sv-SE"))
     .then(response => response.json())
     .then(todoList =>
-    {
+    {   
         console.log(todoList);
+        todoList.forEach(data => 
+        {
+            console.log(today);
+            console.log(data.startDate);
+            let timeDiff = today - new Date(data.startDate);
+            let dayDiff = Math.ceil(Math.abs(timeDiff) / (1000 * 60 * 60 * 24));
+            let todo = document.createElement('div');
+
+            let todoDayText = document.createElement('span');
+            todoDayText.classList.add('todo-day-text');
+            if(timeDiff > 0 && new Date(data.endDate).getTime() < today.getTime())
+            {
+                timeDiff = today - new Date(data.endDate);
+                dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                todo.classList.add('todo-dayover');
+                todoDayText.innerText = 'D+'+dayDiff;
+            }
+            else if(timeDiff < 0)
+            {
+                todo.classList.add('todo-d'+dayDiff);
+                todoDayText.innerText = 'D-' + dayDiff;
+            }
+            else
+            {
+                todo.classList.add('todo-inprogress');
+                todoDayText.innerText = 'D-Day';
+            }
+
+            let todoNameText = document.createElement('span');
+            todoNameText.classList.add('todo-name-text');
+            todoNameText.innerText = data.name;
+
+            todo.appendChild(todoDayText);
+            todo.appendChild(todoNameText);
+            
+            todo.classList.add("todo");
+            todo.classList.add('calender-schedule');
+            todoListContainer.appendChild(todo); 
+        })
     }
     )
     .catch(error => console.error('erro', error));

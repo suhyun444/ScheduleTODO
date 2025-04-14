@@ -43,13 +43,13 @@
     margin-left: 5px;
     color: black;
 }
+.todo-dayover
+{
+    background-color: rgb(255, 0, 0);
+}
 .todo-inprogress
 {
     background-color : greenyellow;
-}
-.todo-dday
-{
-    background-color: rgb(255, 0, 0);
 }
 .todo-d1
 {
