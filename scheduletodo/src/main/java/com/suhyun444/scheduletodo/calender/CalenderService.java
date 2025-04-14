@@ -1,6 +1,6 @@
 package com.suhyun444.scheduletodo.calender;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
-    
+    @Autowired
+    private ScheduleRepository scheduleRepository;
+
     public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
-        todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
+        Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
+        todo.setSchedule(schedule);
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
