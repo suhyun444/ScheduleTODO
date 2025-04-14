@@ -34,4 +34,14 @@ public class CalenderService {
         }
         return dtoList;
     }
+    public List<TodoDTO> GetTodoList(LocalDate now)
+    {
+        List<Todo> entities = calenderRepository.findByEndDateGreaterThanOrIsCompletedEqualsOrderByStartDate(now, false);
+        List<TodoDTO> dtoList = new ArrayList<>();
+        for(int i=0;i<entities.size();++i)
+        {
+            dtoList.add(entities.get(i).ToDTO());
+        }
+        return dtoList;
+    }
 }

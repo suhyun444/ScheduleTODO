@@ -4,6 +4,7 @@ let currentCalenderStart;
 let currentCalenderEnd;
 
 monthCurrent();
+initTodoList();
 
 const form = document.getElementById("input-form");
 
@@ -76,6 +77,17 @@ document.getElementById("input-delete").addEventListener("click",function(){
             }
         });
 });
+function initTodoList()
+{
+    fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/todolist?now=' + today.toLocaleDateString("sv-SE"))
+    .then(response => response.json())
+    .then(todoList =>
+    {
+        console.log(todoList);
+    }
+    )
+    .catch(error => console.error('erro', error));
+}
 function monthDecrease()
 {
     if(currentMonth == 0 && currentYear == 1000) return;
