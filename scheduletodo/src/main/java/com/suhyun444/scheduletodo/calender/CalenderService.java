@@ -18,6 +18,8 @@ public class CalenderService {
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
         Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
+        schedule.setColor(todoWithScheduleDTO.getSchedule().getColor());
+        schedule.setDescription(todoWithScheduleDTO.getSchedule().getDescription());
         todo.setSchedule(schedule);
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
