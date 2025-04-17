@@ -14,7 +14,12 @@ import org.springframework.stereotype.Repository;
 public interface CalenderRepository extends JpaRepository<Todo,Long> {
         @Query("SELECT t FROM Todo t JOIN FETCH t.schedule s WHERE t.endDate > :start AND t.startDate <= :end")
         List<Todo> findTodosWithScheduleInRange(@Param("start") LocalDate start,@Param("end") LocalDate end);
-        List<Todo> findByEndDateGreaterThanOrIsCompletedEqualsOrderByStartDate(LocalDate now, Boolean isCompleted);
+        @Query("""
+                SELECT t FROM Todo t WHERE t.endDate > CURRENT_DATE OR t.isCompleted = false
+                ORDER BY CASE WHEN t.endDate < CURRENT_DATE THEN t.endDate ELSE FUNCTION('ADDDATE', t.startDate, 365000) END
+                """)
+        List<Todo> findTodoListOrderByDate();
+        //List<Todo> findByEndDateGreaterThanOrIsCompletedEqualsOrderByStartDate(LocalDate now, Boolean isCompleted);
 }
 
 /*

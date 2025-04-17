@@ -17,10 +17,15 @@ public class CalenderService {
     public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
-        Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
-        schedule.setColor(todoWithScheduleDTO.getSchedule().getColor());
-        schedule.setDescription(todoWithScheduleDTO.getSchedule().getDescription());
-        todo.setSchedule(schedule);
+        if(todo.getId() != null)
+        {
+            Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
+            schedule.setColor(todoWithScheduleDTO.getSchedule().getColor());
+            schedule.setDescription(todoWithScheduleDTO.getSchedule().getDescription());
+            todo.setSchedule(schedule);
+        }        
+        else
+            todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
@@ -39,9 +44,9 @@ public class CalenderService {
         }
         return dtoList;
     }
-    public List<TodoDTO> GetTodoList(LocalDate now)
+    public List<TodoDTO> GetTodoList()
     {
-        List<Todo> entities = calenderRepository.findByEndDateGreaterThanOrIsCompletedEqualsOrderByStartDate(now, false);
+        List<Todo> entities = calenderRepository.findTodoListOrderByDate();
         List<TodoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {

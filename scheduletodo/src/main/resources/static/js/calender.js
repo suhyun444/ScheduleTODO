@@ -90,22 +90,22 @@ function initTodoList()
             console.log(today);
             console.log(data.startDate);
             let timeDiff = today - new Date(data.startDate);
-            let dayDiff = Math.ceil(Math.abs(timeDiff) / (1000 * 60 * 60 * 24));
+            let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
             let todo = document.createElement('div');
 
             let todoDayText = document.createElement('span');
             todoDayText.classList.add('todo-day-text');
-            if(timeDiff > 0 && new Date(data.endDate).getTime() < today.getTime())
+            if(dayDiff > 0 && new Date(data.endDate).getTime() < today.getTime())
             {
                 timeDiff = today - new Date(data.endDate);
                 dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 todo.classList.add('todo-dayover');
                 todoDayText.innerText = 'D+'+dayDiff;
             }
-            else if(timeDiff < 0)
+            else if(dayDiff  < 0)
             {
                 todo.classList.add('todo-d'+dayDiff);
-                todoDayText.innerText = 'D-' + dayDiff;
+                todoDayText.innerText = 'D' + dayDiff;
             }
             else
             {
