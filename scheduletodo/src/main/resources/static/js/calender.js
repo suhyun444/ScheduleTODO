@@ -98,7 +98,7 @@ function initTodoList()
             if(timeDiff > 0 && new Date(data.endDate).getTime() < today.getTime())
             {
                 timeDiff = today - new Date(data.endDate);
-                dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 todo.classList.add('todo-dayover');
                 todoDayText.innerText = 'D+'+dayDiff;
             }
