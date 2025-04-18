@@ -89,16 +89,17 @@ function initTodoList()
         {
             console.log(today);
             console.log(data.startDate);
+            const tickForDay = 1000 * 60 * 60 * 24;
             let timeDiff = today - new Date(data.startDate);
-            let dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            let dayDiff = Math.floor(timeDiff / tickForDay);
             let todo = document.createElement('div');
 
             let todoDayText = document.createElement('span');
             todoDayText.classList.add('todo-day-text');
-            if(dayDiff > 0 && new Date(data.endDate).getTime() < today.getTime())
+            if(dayDiff > 0 && new Date(data.endDate).getTime() + tickForDay < today.getTime())
             {
                 timeDiff = today - new Date(data.endDate);
-                dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                dayDiff = Math.floor(timeDiff / tickForDay);
                 todo.classList.add('todo-dayover');
                 todoDayText.innerText = 'D+'+dayDiff;
             }
