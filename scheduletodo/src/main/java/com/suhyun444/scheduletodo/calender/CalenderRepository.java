@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 //gcp사용하는 방법을 알아보자 https://namu.wiki/w/Google%20Cloud%20Platform#s-5
 @Repository
 public interface CalenderRepository extends JpaRepository<Todo,Long> {
-        @Query("SELECT t FROM Todo t JOIN FETCH t.schedule s WHERE t.endDate > :start AND t.startDate <= :end")
+        @Query("SELECT t FROM Todo t JOIN FETCH t.schedule s WHERE t.endDate > :start AND t.startDate <= :end ORDER BY t.startDate")
         List<Todo> findTodosWithScheduleInRange(@Param("start") LocalDate start,@Param("end") LocalDate end);
         @Query("""
                 SELECT t FROM Todo t WHERE t.endDate > CURRENT_DATE OR t.isCompleted = false
