@@ -29,6 +29,17 @@ public class CalenderService {
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
+    public TodoDTO SaveTodo(TodoDTO todoDTO)
+    {
+        Todo todo = todoDTO.ToEntity();
+        if(todo.getId() != null)
+        {
+            Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
+            todo.setSchedule(schedule);
+        }
+        calenderRepository.save(todo);
+        return todo.ToDTO();
+    }
     public void DeleteSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();

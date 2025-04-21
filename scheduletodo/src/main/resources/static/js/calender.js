@@ -86,8 +86,6 @@ function initTodoList()
     {   
         todoList.forEach(data => 
         {
-            console.log(today);
-            console.log(data.startDate);
             const tickForDay = 1000 * 60 * 60 * 24;
             let timeDiff = today - new Date(data.startDate);
             let dayDiff = Math.floor(timeDiff / tickForDay);
@@ -119,7 +117,7 @@ function initTodoList()
 
             let todoCheckBox = document.createElement('input');
             todoCheckBox.type = 'checkbox';
-            todoCheckBox.value = data.isCompleted;
+            todoCheckBox.checked = data.completed;
             todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
             todoCheckBox.classList.add('todo-checkbox');
 
@@ -139,6 +137,18 @@ function updateTodo(data,isCompleted)
 {
     console.log(data);
     console.log(isCompleted);
+    data.completed = isCompleted;
+    fetch("/save/todo",
+        {
+            method: "POST",
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(data)
+        }
+    )
+        .then(response => response.json())
+        .then(todo => {
+            console.log(todo);
+        });
 }
 function monthDecrease()
 {

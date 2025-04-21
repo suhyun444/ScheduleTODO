@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,6 +37,12 @@ public class CalenderController
     public void DeleteSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
         calenderService.DeleteSchedule(todoWithScheduleDTO);
     }
+    @PostMapping("/save/todo")
+    public ResponseEntity<TodoDTO> SaveTodo(@RequestBody TodoDTO todoDTO)
+    {
+        TodoDTO result = calenderService.SaveTodo(todoDTO);
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
     @GetMapping("/get/schedules")
     public ResponseEntity<List<ScheduleInfoDTO>> getSchedules(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
         List<ScheduleInfoDTO> result = calenderService.GetSchedules(start,end);
@@ -44,7 +51,6 @@ public class CalenderController
     @GetMapping("/get/todolist")
     public ResponseEntity<List<TodoDTO>> getTodoList(@RequestParam("now") LocalDate now)
     {
-        System.out.println("ASdasdasdasdasdasdasdasdasd");
         List<TodoDTO> result = calenderService.GetTodoList();
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
