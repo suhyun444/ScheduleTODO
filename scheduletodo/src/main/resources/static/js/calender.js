@@ -125,6 +125,7 @@ function initTodoList()
             todo.appendChild(todoNameText);
             todo.appendChild(todoCheckBox)
             
+            todo.id = 'todo-'+data.id;
             todo.classList.add("todo");
             todo.classList.add('calender-schedule');
             todoListContainer.appendChild(todo); 
@@ -135,9 +136,14 @@ function initTodoList()
 }
 function updateTodo(data,isCompleted)
 {
-    console.log(data);
-    console.log(isCompleted);
     data.completed = isCompleted;
+    let endDate = new Date(data.endDate);
+    endDate.setDate(endDate.getDate() + 1);
+    if(endDate < today)
+    {
+        console.log("todo-"+data.id);
+        document.getElementById("todo-"+data.id).remove();
+    }
     fetch("/save/todo",
         {
             method: "POST",
@@ -145,10 +151,12 @@ function updateTodo(data,isCompleted)
             body : JSON.stringify(data)
         }
     )
-        .then(response => response.json())
-        .then(todo => {
-            console.log(todo);
-        });
+        .then(response => {
+            if(!response.ok)
+            {
+                console.log("failed to save");
+            }
+        })
 }
 function monthDecrease()
 {
