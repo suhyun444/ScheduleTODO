@@ -9,7 +9,7 @@ initTodoList();
 
 const form = document.getElementById("input-form");
 
-document.getElementById("input-save").addEventListener("click",function(){
+document.getElementById("input-save").addEventListener("click",()=>{
     event.preventDefault();
     const formData = new FormData(form);
     const data = 
@@ -43,7 +43,7 @@ document.getElementById("input-save").addEventListener("click",function(){
             closeAddSchedulePopup();
         });
 });
-document.getElementById("input-delete").addEventListener("click",function(){
+document.getElementById("input-delete").addEventListener("click",()=>{
     event.preventDefault(); 
     const formData = new FormData(form);
     const data = 
@@ -84,7 +84,6 @@ function initTodoList()
     .then(response => response.json())
     .then(todoList =>
     {   
-        console.log(todoList);
         todoList.forEach(data => 
         {
             console.log(today);
@@ -118,8 +117,15 @@ function initTodoList()
             todoNameText.classList.add('todo-name-text');
             todoNameText.innerText = data.name;
 
+            let todoCheckBox = document.createElement('input');
+            todoCheckBox.type = 'checkbox';
+            todoCheckBox.value = data.isCompleted;
+            todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
+            todoCheckBox.classList.add('todo-checkbox');
+
             todo.appendChild(todoDayText);
             todo.appendChild(todoNameText);
+            todo.appendChild(todoCheckBox)
             
             todo.classList.add("todo");
             todo.classList.add('calender-schedule');
@@ -128,6 +134,11 @@ function initTodoList()
     }
     )
     .catch(error => console.error('erro', error));
+}
+function updateTodo(data,isCompleted)
+{
+    console.log(data);
+    console.log(isCompleted);
 }
 function monthDecrease()
 {
