@@ -8,7 +8,7 @@ monthCurrent();
 initTodoList();
 
 const form = document.getElementById("input-form");
-
+document.getElementById('todo-add-button').addEventListener("click", function() {openAddTodoPopup(null,null,today.toLocaleDateString("sv-SE"),today.toLocaleDateString("sv-SE"))});
 document.getElementById("input-save").addEventListener("click",()=>{
     event.preventDefault();
     const formData = new FormData(form);
@@ -118,6 +118,7 @@ function initTodoList()
             let todoCheckBox = document.createElement('input');
             todoCheckBox.type = 'checkbox';
             todoCheckBox.checked = data.completed;
+            todoCheckBox.addEventListener('click',()=>{event.stopPropagation();})
             todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
             todoCheckBox.classList.add('todo-checkbox');
 
@@ -128,6 +129,7 @@ function initTodoList()
             todo.id = 'todo-'+data.id;
             todo.classList.add("todo");
             todo.classList.add('calender-schedule');
+            todo.addEventListener("click", function() {event.stopPropagation();openAddTodoPopup(data.id,data.name,data.startDate,data.endDate);});
             todoListContainer.appendChild(todo); 
         })
     }
@@ -300,5 +302,27 @@ function openAddSchedulePopup(id,name,color,startDate,endDate,description)
 function closeAddSchedulePopup()
 {
     let popup = document.getElementById('calender-addschedule-popup');
+    popup.style.display='none';
+}
+function openAddTodoPopup(id,name,startDate,endDate)
+{
+    if(id == null)
+        document.getElementById("input-todo-delete").style.visibility = "hidden";
+    else
+        document.getElementById("input-todo-delete").style.visibility = "visible";
+    let popup = document.getElementById('calender-addtodo-popup');
+    let idInput = document.getElementById('input-todo-id');
+    let nameInput = document.getElementById('input-todo-name');
+    let startDateInput = document.getElementById('input-todo-start-date');
+    let endDateInput = document.getElementById('input-todo-end-date');
+    popup.style.display='flex';
+    idInput.value = id;
+    nameInput.value = name;
+    startDateInput.value = startDate;
+    endDateInput.value = endDate;
+}
+function closeAddTodoPopup()
+{
+    let popup = document.getElementById('calender-addtodo-popup');
     popup.style.display='none';
 }

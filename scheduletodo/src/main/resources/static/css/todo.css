@@ -16,7 +16,7 @@
 }
 .todo-list-container
 {
-    height : 75%;
+    position:relative;
     margin-top: 30px;
 }
 .todo
@@ -29,6 +29,15 @@
     background-color: #73b573;
     display:flex;
     align-items : center;
+}
+.todo.todo-add-button
+{
+    background-color: white;
+    border:1px solid black;
+    box-sizing: border-box;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
 }
 .todo-day-text
 {
@@ -69,4 +78,18 @@
 .todo-d3
 {
     background-color: rgb(255, 255, 0);
+}
+#calender-addtodo-popup
+{
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 17%;
+    width: 275px;
+    height: 80px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid black;
+    z-index: 1000;
 }

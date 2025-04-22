@@ -57,7 +57,23 @@
                     <span class="todo-info-text">TODO List</span>
                 </div>
                 <div class = "todo-list-container" id="todo-list-container">
+                    <div id="calender-addtodo-popup">
+                        <button class="close-button" onclick="closeAddTodoPopup()">✖</button>
+                        <form style="line-height: 40%;" id="input-todo-form">
+                            <input type="number" name="id" id="input-todo-id" style="display:none">
+                            <input type="checkbox" name="isCompleted" id="input-todo-isCompleted" style="display:none">
+                            <input type="text" name="name" id="input-todo-name" placeholder="이름">
+                            <br><br>
+                            <input type="date" name="startDate" id="input-todo-start-date">
+                            ~
+                            <input type="date" name="endDate" id="input-todo-end-date">
+                            <br><br><br>
+                            <button type="button" id="input-todo-save">저장</button>
+                            <button type="button" id="input-todo-delete">삭제</button>
+                        </form>
+                    </div>
                 </div>
+                <div class = "todo todo-add-button" id="todo-add-button">+</div>
             </div>
         </div>
     </body>
