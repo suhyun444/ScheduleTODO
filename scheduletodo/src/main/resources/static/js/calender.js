@@ -7,11 +7,12 @@ const todoListContainer = document.getElementById("todo-list-container");
 monthCurrent();
 initTodoList();
 
-const form = document.getElementById("input-form");
+const scheduleForm = document.getElementById("input-form");
+const todoForm = document.getElementById("input-todo-form");
 document.getElementById('todo-add-button').addEventListener("click", function() {openAddTodoPopup(null,null,today.toLocaleDateString("sv-SE"),today.toLocaleDateString("sv-SE"))});
 document.getElementById("input-save").addEventListener("click",()=>{
     event.preventDefault();
-    const formData = new FormData(form);
+    const formData = new FormData(scheduleForm);
     const data = 
     {
         todo:
@@ -37,15 +38,14 @@ document.getElementById("input-save").addEventListener("click",()=>{
     )
         .then(response => response.json())
         .then(schedule => {
-            removeSchedule(formData.get("id"));
-            console.log(schedule);
+            removeSchedule(data.todo.id);
             createSchedule(schedule);
             closeAddSchedulePopup();
         });
 });
 document.getElementById("input-delete").addEventListener("click",()=>{
     event.preventDefault(); 
-    const formData = new FormData(form);
+    const formData = new FormData(scheduleForm);
     const data = 
     {
         todo:
@@ -72,9 +72,63 @@ document.getElementById("input-delete").addEventListener("click",()=>{
         .then(response => {
             if(response.ok)
             {
-                let id = formData.get("id");
-                removeSchedule(id);
+                removeSchedule(data.todo.id);
                 closeAddSchedulePopup();
+            }
+        });
+});
+document.getElementById("input-todo-save").addEventListener("click",()=>{
+    event.preventDefault();
+    const formData = new FormData(todoForm);
+    const data = 
+    {
+        id : formData.get("id"),
+        name : formData.get("name"),
+        startDate : formData.get("startDate"),
+        endDate : formData.get("endDate"),
+        isCompleted : formData.get("isCompleted")
+    }
+    fetch("/save/todo",
+        {
+            method: "POST",
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(data)
+        }
+    )
+        .then(response => {
+            if(response.ok)
+            {
+                removeSchedule(data.id);
+                
+                closeAddTodoPopup();
+            }
+        });
+            
+});
+document.getElementById("input-todo-delete").addEventListener("click",()=>{
+    event.preventDefault(); 
+    const formData = new FormData(todoForm);
+    const data = 
+    {
+        id : formData.get("id"),
+        name : formData.get("name"),
+        startDate : formData.get("startDate"),
+        endDate : formData.get("endDate"),
+        isCompleted : formData.get("isCompleted")
+    }
+    fetch("/delete/todo",
+        {
+            method: "POST",
+            headers:{"Content-Type": "application/json"},
+            body : JSON.stringify(data)
+        }
+    )
+        .then(response => {
+            if(response.ok)
+            {
+                removeSchedule(data.id);
+                document.getElementById("todo-"+data.id).remove();
+                closeAddTodoPopup();
             }
         });
 });

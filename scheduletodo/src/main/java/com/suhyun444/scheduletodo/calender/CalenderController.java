@@ -42,6 +42,13 @@ public class CalenderController
     {
         calenderService.SaveTodo(todoDTO);
     }
+    @PostMapping("/delete/todo")
+    @ResponseStatus(HttpStatus.OK)
+    public void DeleteTodo(@RequestBody TodoDTO todoDTO)
+    {
+        System.out.println("Deletes todo");
+        calenderService.DeleteTodo(todoDTO);
+    }
     @GetMapping("/get/schedules")
     public ResponseEntity<List<ScheduleInfoDTO>> getSchedules(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
         List<ScheduleInfoDTO> result = calenderService.GetSchedules(start,end);

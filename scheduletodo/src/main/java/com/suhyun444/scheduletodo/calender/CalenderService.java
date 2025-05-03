@@ -45,6 +45,11 @@ public class CalenderService {
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
         calenderRepository.delete(todo);
     }
+    public void DeleteTodo(TodoDTO todoDTO)
+    {
+        Todo todo = todoDTO.ToEntity();
+        calenderRepository.delete(todo);
+    }
     public List<ScheduleInfoDTO> GetSchedules(LocalDate start, LocalDate end)
     {
         List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end);
