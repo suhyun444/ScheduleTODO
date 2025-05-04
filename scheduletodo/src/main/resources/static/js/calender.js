@@ -118,7 +118,7 @@ document.getElementById("input-todo-save").addEventListener("click",()=>{
                 id : todo.id,
                 name : data.name,
                 startDate : data.startDate,
-                endData : data.endDate,
+                endDate : data.endDate,
                 isCompleted : todo.isCompleted,
                 color : todo.color,
                 description : todo.description
@@ -131,7 +131,7 @@ document.getElementById("input-todo-save").addEventListener("click",()=>{
             else 
             {
                 if(todoDictionary[data.id].color != null)
-                    createSchedule({id:data.id,name:data.name,startDate:data.startDate,endData:data.endDate,isCompleted:data.isCompleted,color:todoDictionary[data.id].color,description:todoDictionary[data.id].description});
+                    createSchedule(scheduleInfo);
                 editTodo(data.id,data.name,data.startDate,data.endDate);
             }
             closeAddTodoPopup();
