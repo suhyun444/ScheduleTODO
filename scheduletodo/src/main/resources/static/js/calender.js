@@ -110,14 +110,31 @@ document.getElementById("input-todo-save").addEventListener("click",()=>{
             body : JSON.stringify(data)
         }
     )
-        .then(response => {
-            if(response.ok)
+        .then(response => response.json())
+        .then(todo => {
+            removeSchedule(data.id);
+            scheduleInfo = 
             {
-                removeSchedule(data.id);
-                //schedule이 없는 todo일경우?
-                editTodo(data.todo.id,data.todo.name,data.todo.startDate,data.todo.endDate);
-                closeAddTodoPopup();
+                id : todo.id,
+                name : data.name,
+                startDate : data.startDate,
+                endData : data.endDate,
+                isCompleted : todo.isCompleted,
+                color : todo.color,
+                description : todo.description
             }
+            if(data.id == null)
+            {
+                createTodo(scheduleInfo);
+                sortTodoList();
+            }
+            else 
+            {
+                if(todoDictionary[data.id].color != null)
+                    createSchedule({id:data.id,name:data.name,startDate:data.startDate,endData:data.endDate,isCompleted:data.isCompleted,color:todoDictionary[data.id].color,description:todoDictionary[data.id].description});
+                editTodo(data.id,data.name,data.startDate,data.endDate);
+            }
+            closeAddTodoPopup();
         });
             
 });
@@ -156,62 +173,68 @@ function initTodoList()
     {   
         todoList.forEach(data => 
         {
-            if(!(data.id in todoDictionary))
-            {
-                let temp = new Todo(data.id,data.name,data.startDate,data.endDate,data.isCompleted,null,null);
-                todoDictionary[data.id] = temp;
-            }
-            const tickForDay = 1000 * 60 * 60 * 24;
-            let timeDiff = today - new Date(data.startDate);
-            let dayDiff = Math.floor(timeDiff / tickForDay);
-            let todo = document.createElement('div');
-
-            let todoDayText = document.createElement('span');
-            todoDayText.id = 'todo-'+data.id+'-daytext';
-            todoDayText.classList.add('todo-day-text');
-            if(dayDiff > 0 && new Date(data.endDate).getTime() + tickForDay < today.getTime())
-            {
-                timeDiff = today - new Date(data.endDate);
-                dayDiff = Math.floor(timeDiff / tickForDay);
-                todo.classList.add('todo-dayover');
-                todoDayText.innerText = 'D+'+dayDiff;
-            }
-            else if(dayDiff  < 0)
-            {
-                todo.classList.add('todo-d'+dayDiff);
-                todoDayText.innerText = 'D' + dayDiff;
-            }
-            else
-            {
-                todo.classList.add('todo-inprogress');
-                todoDayText.innerText = 'D-Day';
-            }
-
-            let todoNameText = document.createElement('span');
-            todoNameText.id = 'todo-'+data.id+'-nametext';
-            todoNameText.classList.add('todo-name-text');
-            todoNameText.innerText = data.name;
-
-            let todoCheckBox = document.createElement('input');
-            todoCheckBox.type = 'checkbox';
-            todoCheckBox.checked = data.completed;
-            todoCheckBox.addEventListener('click',()=>{event.stopPropagation();})
-            todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
-            todoCheckBox.classList.add('todo-checkbox');
-
-            todo.appendChild(todoDayText);
-            todo.appendChild(todoNameText);
-            todo.appendChild(todoCheckBox)
-            
-            todo.id = 'todo-'+data.id;
-            todo.classList.add("todo");
-            todo.classList.add('calender-schedule');
-            todo.addEventListener("click", function() {event.stopPropagation();openAddTodoPopup(todoDictionary[data.id].id,todoDictionary[data.id].name,todoDictionary[data.id].startDate,todoDictionary[data.id].endDate);});
-            todoListContainer.appendChild(todo); 
+            createTodo(data);
         })
     }
     )
     .catch(error => console.error('erro', error));
+}
+function createTodo(data)
+{
+    if(!(data.id in todoDictionary))
+    {
+        let temp = new Todo(data.id,data.name,data.startDate,data.endDate,data.isCompleted,data.color,data.description);
+        todoDictionary[data.id] = temp;
+    }
+    const tickForDay = 1000 * 60 * 60 * 24;
+    let timeDiff = today - new Date(data.startDate);
+    let dayDiff = Math.floor(timeDiff / tickForDay);
+    let todo = document.createElement('div');
+
+    let todoDayText = document.createElement('span');
+    todoDayText.id = 'todo-'+data.id+'-daytext';
+    todoDayText.classList.add('todo-day-text');
+    if(dayDiff > 0 && new Date(data.endDate).getTime() + tickForDay < today.getTime())
+    {
+        timeDiff = today - new Date(data.endDate);
+        dayDiff = Math.floor(timeDiff / tickForDay);
+        todo.classList.add('todo-dayover');
+        todoDayText.innerText = 'D+'+dayDiff;
+    }
+    else if(dayDiff  < 0)
+    {
+        todo.classList.add('todo-d'+Math.abs(dayDiff));
+        todoDayText.innerText = 'D' + dayDiff;
+    }
+    else
+    {
+        todo.classList.add('todo-inprogress');
+        todoDayText.innerText = 'D-Day';
+    }
+
+    let todoNameText = document.createElement('span');
+    todoNameText.id = 'todo-'+data.id+'-nametext';
+    todoNameText.classList.add('todo-name-text');
+    todoNameText.innerText = data.name;
+
+    let todoCheckBox = document.createElement('input');
+    todoCheckBox.type = 'checkbox';
+    todoCheckBox.checked = data.completed;
+    todoCheckBox.addEventListener('click',()=>{event.stopPropagation();})
+    todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
+    todoCheckBox.classList.add('todo-checkbox');
+
+    todo.appendChild(todoDayText);
+    todo.appendChild(todoNameText);
+    todo.appendChild(todoCheckBox)
+    
+    todo.id = 'todo-'+data.id;
+    todo.classList.add("todo");
+    todo.classList.add('calender-schedule');
+    todo.addEventListener("click", function() {event.stopPropagation();openAddTodoPopup(todoDictionary[data.id].id,todoDictionary[data.id].name,todoDictionary[data.id].startDate,todoDictionary[data.id].endDate);});
+    todoListContainer.appendChild(todo); 
+    
+        
 }
 function editTodo(id,name,startDate,endDate)
 {
@@ -231,7 +254,7 @@ function editTodo(id,name,startDate,endDate)
     }
     else if(dayDiff  < 0)
     {
-        todo.classList.add('todo-d'+dayDiff);
+        todo.classList.add('todo-d'+Math.abs(dayDiff));
         todoDayText.innerText = 'D' + dayDiff;
     }
     else
@@ -268,7 +291,6 @@ function updateTodo(data,isCompleted)
     endDate.setDate(endDate.getDate() + 1);
     if(endDate < today)
     {
-        console.log("todo-"+data.id);
         document.getElementById("todo-"+data.id).remove();
     }
     fetch("/save/todo",
@@ -391,8 +413,6 @@ function createSchedule(schedule)
 }
 function removeSchedule(id)
 {
-    console.log(id);
-    delete todoDictionary[id];
     document.querySelectorAll(".schedule-"+id).forEach(el => el.remove());
 }
 function minDate(a,b)

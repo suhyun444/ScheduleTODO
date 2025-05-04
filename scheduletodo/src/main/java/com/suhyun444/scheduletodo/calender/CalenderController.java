@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,14 @@ public class CalenderController
     @PostMapping("/delete/schedule")
     @ResponseStatus(HttpStatus.OK)
     public void DeleteSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
+        System.out.println(todoWithScheduleDTO.getTodo().getId());
         calenderService.DeleteSchedule(todoWithScheduleDTO);
     }
     @PostMapping("/save/todo")
-    @ResponseStatus(HttpStatus.OK)
-    public void SaveTodo(@RequestBody TodoDTO todoDTO)
+    public ResponseEntity<ScheduleInfoDTO> SaveTodo(@RequestBody TodoDTO todoDTO)
     {
-        calenderService.SaveTodo(todoDTO);
+        ScheduleInfoDTO result = calenderService.SaveTodo(todoDTO);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/todo")
     @ResponseStatus(HttpStatus.OK)
@@ -55,9 +57,9 @@ public class CalenderController
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @GetMapping("/get/todolist")
-    public ResponseEntity<List<TodoDTO>> getTodoList(@RequestParam("now") LocalDate now)
+    public ResponseEntity<List<ScheduleInfoDTO>> getTodoList(@RequestParam("now") LocalDate now)
     {
-        List<TodoDTO> result = calenderService.GetTodoList();
+        List<ScheduleInfoDTO> result = calenderService.GetTodoList();
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.suhyun444.scheduletodo.calender;
 import java.time.LocalDate; 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,16 +30,19 @@ public class CalenderService {
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
-    public TodoDTO SaveTodo(TodoDTO todoDTO)
+    public ScheduleInfoDTO SaveTodo(TodoDTO todoDTO)
     {
         Todo todo = todoDTO.ToEntity();
         if(todo.getId() != null)
         {
-            Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
-            todo.setSchedule(schedule);
+            Optional<Schedule> optionalSchedule = scheduleRepository.findById(todo.getId());
+            if(optionalSchedule.isPresent())
+                todo.setSchedule(optionalSchedule.get());   
+            else
+                todo.setSchedule(null);
         }
         calenderRepository.save(todo);
-        return todo.ToDTO();
+        return todo.ToScheduleInfoDTO();
     }
     public void DeleteSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {
@@ -60,13 +64,18 @@ public class CalenderService {
         }
         return dtoList;
     }
-    public List<TodoDTO> GetTodoList()
+    public List<ScheduleInfoDTO> GetTodoList()
     {
         List<Todo> entities = calenderRepository.findTodoListOrderByDate();
-        List<TodoDTO> dtoList = new ArrayList<>();
+        List<ScheduleInfoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {
-            dtoList.add(entities.get(i).ToDTO());
+            Optional<Schedule> optionalSchedule = scheduleRepository.findById(entities.get(i).getId());
+            if(optionalSchedule.isPresent())
+                entities.get(i).setSchedule(optionalSchedule.get());   
+            else
+                entities.get(i).setSchedule(null);
+            dtoList.add(entities.get(i).ToScheduleInfoDTO());
         }
         return dtoList;
     }
