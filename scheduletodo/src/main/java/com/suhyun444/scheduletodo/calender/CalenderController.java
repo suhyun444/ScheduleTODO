@@ -3,6 +3,7 @@ package com.suhyun444.scheduletodo.calender;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.suhyun444.scheduletodo.user.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,8 +23,16 @@ public class CalenderController
     @Autowired
     private CalenderService calenderService;
 
+    @Autowired
+    private LoginService loginService;
+
     @GetMapping("")
     public String start()
+    {
+        return "redirect:/oauth2/authorization/google";
+    }
+    @GetMapping("/calender")
+    public String CalenderView()
     {
         return "index";
     }
