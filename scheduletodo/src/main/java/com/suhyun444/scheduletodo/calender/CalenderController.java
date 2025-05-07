@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +34,9 @@ public class CalenderController
         return "redirect:/oauth2/authorization/google";
     }
     @GetMapping("/calender")
-    public String CalenderView()
+    public String CalenderView(@AuthenticationPrincipal OAuth2User pricipal)
     {
+        System.out.println(pricipal.getAttribute("email").toString());
         return "index";
     }
     @PostMapping("/save/schedule")
@@ -71,4 +74,5 @@ public class CalenderController
         List<ScheduleInfoDTO> result = calenderService.GetTodoList();
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
+    
 }
