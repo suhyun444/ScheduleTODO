@@ -20,9 +20,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(request);
 
         String email = oAuth2User.getAttribute("email");
-        System.out.println(email + "SADASDASDASDASD");
         User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(new User(null,email)));
-        System.out.println(user.getId() + " , " + user.getEmail() + "SADASDASDASDASD");
         return oAuth2User;
     }
 }

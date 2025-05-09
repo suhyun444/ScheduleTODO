@@ -8,12 +8,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.suhyun444.scheduletodo.user.User;
+import com.suhyun444.scheduletodo.user.UserRepository;
+
 @Service
 public class CalenderService {
     @Autowired
     private CalenderRepository calenderRepository;
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
     {

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.suhyun444.scheduletodo.user.User;
+
 
 //구름ide는 시간당 비용이므로 계속 켜져있는 컨테이너에 적합하지 않다
 //gcp사용하는 방법을 알아보자 https://namu.wiki/w/Google%20Cloud%20Platform#s-5
@@ -20,6 +22,7 @@ public interface CalenderRepository extends JpaRepository<Todo,Long> {
                 """)
         List<Todo> findTodoListOrderByDate();
         //List<Todo> findByEndDateGreaterThanOrIsCompletedEqualsOrderByStartDate(LocalDate now, Boolean isCompleted);
+        List<Todo> findByUser(User user);
 }
 
 /*

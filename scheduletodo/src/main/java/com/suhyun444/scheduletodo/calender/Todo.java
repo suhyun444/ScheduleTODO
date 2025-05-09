@@ -2,12 +2,17 @@ package com.suhyun444.scheduletodo.calender;
 
 import java.time.LocalDate;
 
+import com.suhyun444.scheduletodo.user.User;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +42,10 @@ public class Todo {
 
     @OneToOne(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Schedule schedule;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public TodoDTO ToDTO(){
         return TodoDTO.builder().id(id).name(name).startDate(startDate).endDate(endDate).isCompleted(isCompleted).build();
