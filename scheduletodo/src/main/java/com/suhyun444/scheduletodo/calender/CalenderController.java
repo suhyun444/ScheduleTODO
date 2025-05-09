@@ -36,7 +36,6 @@ public class CalenderController
     @GetMapping("/calender")
     public String CalenderView(@AuthenticationPrincipal OAuth2User pricipal)
     {
-        System.out.println(pricipal.getAttribute("email").toString());
         return "index";
     }
     @PostMapping("/save/schedule")
