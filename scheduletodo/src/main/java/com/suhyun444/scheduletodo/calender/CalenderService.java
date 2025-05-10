@@ -20,9 +20,11 @@ public class CalenderService {
     @Autowired
     private UserRepository userRepository;
 
-    public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
+    public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO,String email)
     {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Todo todo = todoWithScheduleDTO.getTodo().ToEntity();
+        todo.setUser(user);
         if(todo.getId() != null)
         {
             Schedule schedule = scheduleRepository.getReferenceById(todo.getId());
@@ -31,20 +33,22 @@ public class CalenderService {
             todo.setSchedule(schedule);
         }        
         else
-            todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
+        todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
-    public ScheduleInfoDTO SaveTodo(TodoDTO todoDTO)
+    public ScheduleInfoDTO SaveTodo(TodoDTO todoDTO,String email)
     {
+        User user = userRepository.findByEmail(email).orElseThrow();
         Todo todo = todoDTO.ToEntity();
+        todo.setUser(user);
         if(todo.getId() != null)
         {
             Optional<Schedule> optionalSchedule = scheduleRepository.findById(todo.getId());
             if(optionalSchedule.isPresent())
-                todo.setSchedule(optionalSchedule.get());   
+            todo.setSchedule(optionalSchedule.get());   
             else
-                todo.setSchedule(null);
+            todo.setSchedule(null);
         }
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
@@ -59,9 +63,10 @@ public class CalenderService {
         Todo todo = todoDTO.ToEntity();
         calenderRepository.delete(todo);
     }
-    public List<ScheduleInfoDTO> GetSchedules(LocalDate start, LocalDate end)
+    public List<ScheduleInfoDTO> GetSchedules(LocalDate start, LocalDate end,String email)
     {
-        List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end);
+                User user = userRepository.findByEmail(email).orElseThrow();
+        List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end, user);
         List<ScheduleInfoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {
@@ -69,9 +74,10 @@ public class CalenderService {
         }
         return dtoList;
     }
-    public List<ScheduleInfoDTO> GetTodoList()
+    public List<ScheduleInfoDTO> GetTodoList(String email)
     {
-        List<Todo> entities = calenderRepository.findTodoListOrderByDate();
+        User user = userRepository.findByEmail(email).orElseThrow();
+        List<Todo> entities = calenderRepository.findTodoListOrderByDate(user);
         List<ScheduleInfoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
         {

@@ -44,7 +44,7 @@ public class Todo {
     private Schedule schedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     public TodoDTO ToDTO(){

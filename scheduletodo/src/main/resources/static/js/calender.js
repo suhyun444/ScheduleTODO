@@ -54,7 +54,13 @@ document.getElementById("input-save").addEventListener("click",()=>{
         .then(schedule => {
             removeSchedule(data.todo.id);
             createSchedule(schedule);
-            editTodo(data.todo.id,data.todo.name,data.todo.startDate,data.todo.endDate);
+            if(data.todo.id == "")
+            {
+                createTodo(schedule);
+                sortTodoList();
+            }
+            else
+                editTodo(data.todo.id,data.todo.name,data.todo.startDate,data.todo.endDate);
             closeAddSchedulePopup();
         });
 });
@@ -123,7 +129,7 @@ document.getElementById("input-todo-save").addEventListener("click",()=>{
                 color : todo.color,
                 description : todo.description
             }
-            if(data.id == null)
+            if(data.id == "")
             {
                 createTodo(scheduleInfo);
                 sortTodoList();
@@ -167,7 +173,7 @@ document.getElementById("input-todo-delete").addEventListener("click",()=>{
 });
 function initTodoList()
 {
-    fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/todolist?now=' + today.toLocaleDateString("sv-SE"))
+    fetch('https://special-spork-p9px6j6vv6rcrjj6-8080.app.github.dev/get/todolist')
     .then(response => response.json())
     .then(todoList =>
     {   

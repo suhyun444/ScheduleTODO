@@ -25,19 +25,19 @@ public class CalenderController
     private CalenderService calenderService;
 
 
-    @GetMapping("")
+    @GetMapping({"","/login/google"})
     public String start()
     {
         return "redirect:/oauth2/authorization/google";
     }
     @GetMapping("/calender")
-    public String CalenderView(@AuthenticationPrincipal OAuth2User pricipal)
+    public String CalenderView()
     {
         return "index";
     }
     @PostMapping("/save/schedule")
-    public ResponseEntity<ScheduleInfoDTO> SaveSchedule(@RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
-        ScheduleInfoDTO result = calenderService.SaveTodoWithSchedule(todoWithScheduleDTO);
+    public ResponseEntity<ScheduleInfoDTO> SaveSchedule(@AuthenticationPrincipal OAuth2User pricipal, @RequestBody TodoWithScheduleDTO todoWithScheduleDTO) {
+        ScheduleInfoDTO result = calenderService.SaveTodoWithSchedule(todoWithScheduleDTO,pricipal.getAttribute("email"));
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/schedule")
@@ -47,9 +47,10 @@ public class CalenderController
         calenderService.DeleteSchedule(todoWithScheduleDTO);
     }
     @PostMapping("/save/todo")
-    public ResponseEntity<ScheduleInfoDTO> SaveTodo(@RequestBody TodoDTO todoDTO)
+    public ResponseEntity<ScheduleInfoDTO> SaveTodo(@AuthenticationPrincipal OAuth2User pricipal, @RequestBody TodoDTO todoDTO)
     {
-        ScheduleInfoDTO result = calenderService.SaveTodo(todoDTO);
+        System.out.println(pricipal.getAttribute("email").toString());
+        ScheduleInfoDTO result = calenderService.SaveTodo(todoDTO,pricipal.getAttribute("email"));
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @PostMapping("/delete/todo")
@@ -60,14 +61,14 @@ public class CalenderController
         calenderService.DeleteTodo(todoDTO);
     }
     @GetMapping("/get/schedules")
-    public ResponseEntity<List<ScheduleInfoDTO>> getSchedules(@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
-        List<ScheduleInfoDTO> result = calenderService.GetSchedules(start,end);
+    public ResponseEntity<List<ScheduleInfoDTO>> getSchedules(@AuthenticationPrincipal OAuth2User pricipal,@RequestParam("start") LocalDate start, @RequestParam("end") LocalDate end) {
+        List<ScheduleInfoDTO> result = calenderService.GetSchedules(start,end,pricipal.getAttribute("email"));
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     @GetMapping("/get/todolist")
-    public ResponseEntity<List<ScheduleInfoDTO>> getTodoList(@RequestParam("now") LocalDate now)
+    public ResponseEntity<List<ScheduleInfoDTO>> getTodoList(@AuthenticationPrincipal OAuth2User pricipal)
     {
-        List<ScheduleInfoDTO> result = calenderService.GetTodoList();
+        List<ScheduleInfoDTO> result = calenderService.GetTodoList(pricipal.getAttribute("email"));
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
     
