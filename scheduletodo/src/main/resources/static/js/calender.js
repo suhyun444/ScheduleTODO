@@ -93,6 +93,7 @@ document.getElementById("input-delete").addEventListener("click",()=>{
         .then(response => {
             if(response.ok)
             {
+                document.getElementById("todo-"+data.todo.id).remove();
                 removeSchedule(data.todo.id);
                 closeAddSchedulePopup();
             }
@@ -225,7 +226,8 @@ function createTodo(data)
 
     let todoCheckBox = document.createElement('input');
     todoCheckBox.type = 'checkbox';
-    todoCheckBox.checked = data.completed;
+    todoCheckBox.checked = data.isCompleted;
+    console.log(data);
     todoCheckBox.addEventListener('click',()=>{event.stopPropagation();})
     todoCheckBox.addEventListener('change',()=>{updateTodo(data,todoCheckBox.checked);})
     todoCheckBox.classList.add('todo-checkbox');
@@ -292,6 +294,7 @@ function sortTodoList()
 }
 function updateTodo(data,isCompleted)
 {
+    console.log("updateTodo");
     data.completed = isCompleted;
     let endDate = new Date(data.endDate);
     endDate.setDate(endDate.getDate() + 1);

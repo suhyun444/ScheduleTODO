@@ -49,7 +49,6 @@ public class CalenderController
     @PostMapping("/save/todo")
     public ResponseEntity<ScheduleInfoDTO> SaveTodo(@AuthenticationPrincipal OAuth2User pricipal, @RequestBody TodoDTO todoDTO)
     {
-        System.out.println(pricipal.getAttribute("email").toString());
         ScheduleInfoDTO result = calenderService.SaveTodo(todoDTO,pricipal.getAttribute("email"));
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

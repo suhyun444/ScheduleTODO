@@ -51,6 +51,7 @@ public class CalenderService {
             todo.setSchedule(null);
         }
         calenderRepository.save(todo);
+
         return todo.ToScheduleInfoDTO();
     }
     public void DeleteSchedule(TodoWithScheduleDTO todoWithScheduleDTO)
@@ -87,6 +88,7 @@ public class CalenderService {
             else
                 entities.get(i).setSchedule(null);
             dtoList.add(entities.get(i).ToScheduleInfoDTO());
+            System.out.println(entities.get(i).getIsCompleted());
         }
         return dtoList;
     }
