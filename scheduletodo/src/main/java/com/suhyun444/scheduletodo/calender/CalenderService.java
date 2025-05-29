@@ -33,7 +33,7 @@ public class CalenderService {
             todo.setSchedule(schedule);
         }        
         else
-        todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
+            todo.setSchedule(todoWithScheduleDTO.getSchedule().ToEntity(todo));
         calenderRepository.save(todo);
         return todo.ToScheduleInfoDTO();
     }
@@ -46,9 +46,9 @@ public class CalenderService {
         {
             Optional<Schedule> optionalSchedule = scheduleRepository.findById(todo.getId());
             if(optionalSchedule.isPresent())
-            todo.setSchedule(optionalSchedule.get());   
+                todo.setSchedule(optionalSchedule.get());   
             else
-            todo.setSchedule(null);
+                todo.setSchedule(null);
         }
         calenderRepository.save(todo);
 
