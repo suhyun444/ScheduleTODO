@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -230,6 +232,94 @@ public class CalenderServiceTest {
         void DeleteTodo_NullTodoException()
         {
             assertThrows(NullPointerException.class,()->calenderService.DeleteTodo(null));
+        }
+    }
+    @Nested
+    class GetSchedulesMethod
+    {
+        @Test
+        void GetSchedules_Success()
+        {
+            User mockUser = User.builder().id(1L).email("test@test.com").build();
+            String email = "test@test.com";
+            LocalDate start = LocalDate.of(2025,1,1);
+            LocalDate end = LocalDate.of(2025,1,31);
+            Todo data1 = Todo.builder().id(1L).name("todo1").startDate(LocalDate.of(2025,1,14)).endDate(LocalDate.of(2025,1,15)).isCompleted(false).build();
+            Todo data2 = Todo.builder().id(2L).name("todo2").startDate(LocalDate.of(2025,1,14)).endDate(LocalDate.of(2025,1,16)).isCompleted(false).build();
+            List<Todo> entities = new ArrayList<>();
+            entities.add(data1);
+            entities.add(data2);
+            
+            when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+            when(calenderRepository.findTodosWithScheduleInRange(start, end, mockUser)).thenReturn(entities);
+
+            List<ScheduleInfoDTO> result = calenderService.GetSchedules(start, end, email);
+            assertThat(result.get(0).getName()).isEqualTo("todo1");
+            assertThat(result.get(1).getName()).isEqualTo("todo2");
+
+            verify(userRepository).findByEmail(email);
+            verify(calenderRepository).findTodosWithScheduleInRange(start, end, mockUser);
+
+        }
+        @Test
+        void GetSchedules_NotFoundEmailException()
+        {
+            String email = "test@test.com";
+
+            when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+            assertThrows(NoSuchElementException.class, ()->calenderService.GetSchedules(LocalDate.now(),LocalDate.now(),email));
+        }
+        @Test
+        void GetSchedules_NullEmailException()
+        {
+            assertThrows(NoSuchElementException.class, ()->calenderService.GetSchedules(LocalDate.now(), LocalDate.now(), null));
+        }
+    }
+    @Nested
+    class GetTodoListMethod
+    {
+        @Test
+        void GetTodoList_Success()
+        {
+            User mockUser = User.builder().id(1L).email("test@test.com").build();
+            String email = "test@test.com";
+            Todo data1 = Todo.builder().id(1L).name("todo1").startDate(LocalDate.now()).endDate(LocalDate.now()).isCompleted(false).build();
+            Todo data2 = Todo.builder().id(2L).name("todo2").startDate(LocalDate.now()).endDate(LocalDate.now()).isCompleted(false).build();
+            Schedule schedule2 = Schedule.builder().id(2L).description("todo2Des").color("FFFFFF").build();
+            List<Todo> entities = new ArrayList<>();
+            entities.add(data1);
+            entities.add(data2);
+
+            when(userRepository.findByEmail(email)).thenReturn(Optional.of(mockUser));
+            when(scheduleRepository.findById(1L)).thenReturn(Optional.empty());
+            when(scheduleRepository.findById(2L)).thenReturn(Optional.of(schedule2));
+            when(calenderRepository.findTodoListOrderByDate(mockUser)).thenReturn(entities);
+
+            List<ScheduleInfoDTO> result = calenderService.GetTodoList(email);
+            assertThat(result.get(0).getName()).isEqualTo("todo1");
+            assertThat(result.get(0).getDescription()).isEqualTo(null);
+            assertThat(result.get(1).getName()).isEqualTo("todo2");
+            assertThat(result.get(1).getDescription()).isEqualTo("todo2Des");
+
+            verify(userRepository).findByEmail(email);
+            verify(scheduleRepository).findById(1L);
+            verify(scheduleRepository).findById(2L);
+            verify(calenderRepository).findTodoListOrderByDate(mockUser);
+        }
+        @Test
+        void GetTodoList_NotFoundEmailException()
+        {
+            String email = "test@test.com";
+
+            when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+
+            assertThrows(NoSuchElementException.class, ()->calenderService.GetTodoList(email));
+        }
+        @Test
+        void GetTodoList_NullEmailException()
+        {
+            assertThrows(NoSuchElementException.class,()->calenderService.GetTodoList(null));
         }
     }
 }

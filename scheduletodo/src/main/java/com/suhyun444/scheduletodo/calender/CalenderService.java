@@ -66,7 +66,7 @@ public class CalenderService {
     }
     public List<ScheduleInfoDTO> GetSchedules(LocalDate start, LocalDate end,String email)
     {
-                User user = userRepository.findByEmail(email).orElseThrow();
+        User user = userRepository.findByEmail(email).orElseThrow();
         List<Todo> entities = calenderRepository.findTodosWithScheduleInRange(start, end, user);
         List<ScheduleInfoDTO> dtoList = new ArrayList<>();
         for(int i=0;i<entities.size();++i)
@@ -88,7 +88,6 @@ public class CalenderService {
             else
                 entities.get(i).setSchedule(null);
             dtoList.add(entities.get(i).ToScheduleInfoDTO());
-            System.out.println(entities.get(i).getIsCompleted());
         }
         return dtoList;
     }
