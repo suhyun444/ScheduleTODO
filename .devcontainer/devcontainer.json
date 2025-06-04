@@ -5,8 +5,9 @@
       "extensions": [
         "vmware.vscode-boot-dev-pack",
         "vscjava.vscode-java-pack",
-        "cweijan.vscode-mysql-client2",
-        "xabikos.javascriptsnippets"
+        "xabikos.javascriptsnippets",
+        "ms-azuretools.vscode-docker",
+        "github.vscode-github-actions"
       ]
     }
   },
@@ -14,5 +15,7 @@
     "java": {
       "version": "21"
     }
-  }
+  },
+  "postCreateCommand": "curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose"
+
 }

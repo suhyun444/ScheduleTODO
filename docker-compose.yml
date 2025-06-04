@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ./scheduletodo
+      dockerfile: Dockerfile
+    container_name: spring-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://43.203.19.151:54287/calender
+      SPRING_DATASOURCE_USERNAME: suhyun444
+      SPRING_DATASOURCE_PASSWORD: 0404
+    restart: on-failure
