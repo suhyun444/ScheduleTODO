@@ -28,10 +28,21 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+        
     - name: Run chmod to make gradlew executable
       run: chmod +x ./scheduletodo/gradlew
+
+    - name: Test with Gradle
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: test
+        build-root-directory: scheduletodo
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        arguments: build
+        arguments: clean build
         build-root-directory: scheduletodo
+
+    - name: Build Docker Image
+      run: docker-compose build --no-cache
