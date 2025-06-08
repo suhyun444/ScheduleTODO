@@ -5,5 +5,13 @@ ENV JAVA_OPTS=$JAVA_OPTS
 COPY ./scheduletodo/build/libs/scheduletodo-0.0.1-SNAPSHOT.jar scheduletodo.jar
 EXPOSE 8080
 ENTRYPOINT exec java $JAVA_OPTS -jar scheduletodo.jar
+
+# FROM openjdk:21
+# VOLUME /tmp
+# ARG JAVA_OPTS
+# ENV JAVA_OPTS=${JAVA_OPTS}
+# COPY ./scheduletodo/build/libs/scheduletodo-0.0.1-SNAPSHOT.jar app.jar
+# EXPOSE 8080
+# ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app.jar"]
 # For Spring-Boot project, use the entrypoint below to reduce Tomcat startup time.
 #ENTRYPOINT exec java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar scheduletodo.jar
