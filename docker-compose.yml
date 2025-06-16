@@ -1,4 +1,19 @@
 services:
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: calender
+      MYSQL_USER: suhyun444
+      MYSQL_PASSWORD: suhyun
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+      
   app:
     build:
       context: ./
@@ -7,7 +22,16 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://43.203.19.151:54287/calender
-      SPRING_DATASOURCE_USERNAME: suhyun444
-      SPRING_DATASOURCE_PASSWORD: 0404
-    restart: on-failure
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/calender
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_REDIRECT_URI: ${GOOGLE_REDIRECT_URI}
+    networks:
+      - app-network
+    
+volumes:
+  mysql_data:
+networks:
+  app-network:
