@@ -25,7 +25,7 @@ public class CalenderController
     private CalenderService calenderService;
 
 
-    @GetMapping({"","/login/google"})
+    @GetMapping({"/","/login/google"})
     public String start()
     {
         return "redirect:/oauth2/authorization/google";
