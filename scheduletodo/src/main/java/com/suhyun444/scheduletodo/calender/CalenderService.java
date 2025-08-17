@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.suhyun444.scheduletodo.user.User;
 import com.suhyun444.scheduletodo.user.UserRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CalenderService {
     @Autowired
@@ -20,6 +22,7 @@ public class CalenderService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional
     public ScheduleInfoDTO SaveTodoWithSchedule(TodoWithScheduleDTO todoWithScheduleDTO,String email)
     {
         User user = userRepository.findByEmail(email).orElseThrow();
